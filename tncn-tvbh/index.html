@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VFX Auto · Cấn trừ trước thuế hay sau thuế — mô phỏng lương net TVBH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap&subset=latin,latin-ext,vietnamese" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0e1a; --ink2:#11172a; --ink3:#182036; --line:#242e4a; --line2:#2f3b5c;
+  --txt:#e8ecf6; --txt2:#a3adc6; --txt3:#6b7695;
+  --gold:#d4a843; --gold-dim:#5c4a1e;
+  --good:#4fd1c5; --good-dim:#12403c;
+  --bad:#e8636f; --bad-dim:#4a1c22;
+  --violet:#9b8cf0;
+  --b1:#4fd1c5; --b2:#63b3ed; --b3:#d4a843; --b4:#ed8936; --b5:#e8636f;
+  --shadow:0 10px 34px rgba(0,0,0,.45);
+}
+html[data-theme="mist"]{
+  --ink:#f4f5f8; --ink2:#ffffff; --ink3:#eceff5; --line:#d5dae6; --line2:#c2c9da;
+  --txt:#141a2a; --txt2:#4a5570; --txt3:#7b8499;
+  --gold:#7E5C0D; --gold-dim:#e0d2a8;
+  --good:#0e7c72; --good-dim:#cfeae7;
+  --bad:#b3202f; --bad-dim:#f7dcdf;
+  --violet:#5c4bc4;
+  --b1:#0e7c72; --b2:#2b6cb0; --b3:#7E5C0D; --b4:#b05a12; --b5:#b3202f;
+  --shadow:0 8px 26px rgba(20,26,42,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--txt);font-family:"Outfit",system-ui,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;padding:22px 20px 60px}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* ---------- header ---------- */
+.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+.hd .eyebrow{font-family:"DM Mono",monospace;font-size:10.5px;letter-spacing:2.4px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:9px}
+.hd h1{font-family:"Noto Serif Display",serif;font-weight:400;font-size:31px;margin:0;line-height:1.2;letter-spacing:-.3px}
+.hd h1 em{font-style:italic;color:var(--gold)}
+.hd .lede{color:var(--txt2);font-size:14px;max-width:600px;margin-top:9px}
+.hd-r{display:flex;gap:8px;align-items:center}
+.tbtn{background:var(--ink2);border:1px solid var(--line2);color:var(--txt2);border-radius:8px;
+  padding:8px 13px;font-family:"Outfit";font-size:12.5px;cursor:pointer;transition:.15s}
+.tbtn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- panel ---------- */
+.panel{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:20px}
+.panel h2{font-family:"Noto Serif Display",serif;font-weight:400;font-size:19px;margin:0 0 4px}
+.sub{color:var(--txt3);font-size:12.8px;margin-bottom:16px}
+
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.pbtn{background:transparent;border:1px solid var(--line2);color:var(--txt2);border-radius:20px;
+  padding:6px 15px;font-family:"Outfit";font-size:12.5px;cursor:pointer;transition:.15s}
+.pbtn:hover,.pbtn.on{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+html[data-theme="mist"] .pbtn.on{background:#f6efdc}
+
+.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px 24px}
+.fld label{display:flex;justify-content:space-between;align-items:baseline;font-size:12.8px;color:var(--txt2);margin-bottom:6px}
+.fld label b{font-family:"DM Mono",monospace;font-size:14px;color:var(--txt);font-weight:500}
+.fld label b.hi{color:var(--gold)}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;
+  background:var(--line2);outline:none;margin:5px 0 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+  background:var(--gold);cursor:pointer;border:2px solid var(--ink2)}
+input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--gold);
+  cursor:pointer;border:2px solid var(--ink2)}
+.hint{font-size:11.2px;color:var(--txt3);margin-top:4px}
+
+/* ---------- verdict ---------- */
+.verdict{background:linear-gradient(135deg,var(--bad-dim),transparent 68%);
+  border:1px solid var(--bad);border-radius:14px;padding:22px 26px;margin-bottom:20px;
+  display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.verdict .vnum{font-family:"Noto Serif Display",serif;font-size:46px;line-height:1;color:var(--bad);white-space:nowrap}
+.verdict .vtxt{flex:1;min-width:280px}
+.verdict .vlbl{font-family:"DM Mono",monospace;font-size:10.5px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--bad);margin-bottom:7px}
+.verdict .vbody{font-size:14.5px;color:var(--txt)}
+.verdict .vbody b{color:var(--txt)}
+.verdict.zero{background:linear-gradient(135deg,var(--good-dim),transparent 68%);border-color:var(--good)}
+.verdict.zero .vnum,.verdict.zero .vlbl{color:var(--good)}
+.vside{display:flex;gap:20px;flex-wrap:wrap;padding-left:22px;border-left:1px solid var(--line2)}
+.vside div{min-width:96px}
+.vside .k{font-size:11px;color:var(--txt3);letter-spacing:.4px}
+.vside .v{font-family:"DM Mono",monospace;font-size:17px;color:var(--txt);margin-top:2px}
+
+/* ---------- two cases ---------- */
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+@media(max-width:900px){.cases{grid-template-columns:1fr}}
+.case{background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.case.good{border-color:var(--good)}
+.case.bad{border-color:var(--bad)}
+.chd{padding:16px 20px 14px;border-bottom:1px solid var(--line)}
+.case.good .chd{background:var(--good-dim)}
+.case.bad .chd{background:var(--bad-dim)}
+.ctag{font-family:"DM Mono",monospace;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.case.good .ctag{color:var(--good)}
+.case.bad .ctag{color:var(--bad)}
+.chd h3{font-family:"Noto Serif Display",serif;font-weight:400;font-size:19px;margin:0 0 5px;line-height:1.25}
+.chd p{margin:0;font-size:12.8px;color:var(--txt2)}
+.rows{padding:6px 20px 16px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.4px}
+.row:last-child{border-bottom:none}
+.row .lb{color:var(--txt2)}
+.row .lb .op{font-family:"DM Mono",monospace;color:var(--txt3);margin-right:7px;font-size:12px}
+.row .vl{font-family:"DM Mono",monospace;font-size:14px;white-space:nowrap;color:var(--txt)}
+.row.sum{border-top:1px solid var(--line2);border-bottom:none;margin-top:3px;padding-top:11px}
+.row.sum .lb{color:var(--txt);font-weight:500}
+.row.dim{opacity:.42}
+.row.tax .vl{color:var(--gold)}
+.row.cut .vl{color:var(--violet)}
+.row.final{margin-top:9px;padding:13px 14px;border:1px solid var(--line2);border-radius:10px;border-bottom:none;background:var(--ink3)}
+.case.good .row.final{border-color:var(--good);background:var(--good-dim)}
+.case.bad .row.final{border-color:var(--bad);background:var(--bad-dim)}
+.row.final .lb{font-weight:600;color:var(--txt);font-size:13.6px}
+.row.final .vl{font-size:21px;font-weight:500}
+.case.good .row.final .vl{color:var(--good)}
+.case.bad .row.final .vl{color:var(--bad)}
+
+/* ---------- ladder (signature) ---------- */
+.ladder{margin-top:6px}
+.lrow{display:grid;grid-template-columns:118px 1fr 132px;gap:14px;align-items:center;padding:7px 0}
+.lname{font-size:12.4px;color:var(--txt2)}
+.lname span{font-family:"DM Mono",monospace;color:var(--txt3);font-size:11px;display:block}
+.lbar{height:26px;background:var(--ink3);border-radius:5px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.lfill{position:absolute;left:0;top:0;bottom:0;transition:width .35s cubic-bezier(.4,0,.2,1)}
+.lslice{position:absolute;top:0;bottom:0;transition:.35s cubic-bezier(.4,0,.2,1);
+  background:repeating-linear-gradient(45deg,var(--violet),var(--violet) 5px,transparent 5px,transparent 10px);
+  border-left:2px solid var(--violet);border-right:2px solid var(--violet)}
+.lval{font-family:"DM Mono",monospace;font-size:12.4px;color:var(--txt2);text-align:right}
+.lval b{color:var(--txt);font-weight:500}
+.lkey{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--txt3);
+  padding-top:13px;border-top:1px solid var(--line)}
+.lkey i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* ---------- callouts ---------- */
+.note{border-left:2px solid var(--gold);background:var(--ink3);border-radius:0 9px 9px 0;
+  padding:13px 17px;margin-top:14px;font-size:13.2px;color:var(--txt2)}
+.note b{color:var(--txt)}
+.note.warn{border-left-color:var(--bad)}
+.note.ok{border-left-color:var(--good)}
+
+/* ---------- matrix ---------- */
+table{width:100%;border-collapse:collapse;font-size:13.2px}
+th,td{padding:9px 11px;text-align:right;border-bottom:1px solid var(--line)}
+th{font-family:"DM Mono",monospace;font-size:10.8px;letter-spacing:1.1px;text-transform:uppercase;
+  color:var(--txt3);font-weight:400;border-bottom-color:var(--line2);white-space:nowrap}
+th.l,td.l{text-align:left}
+td{font-family:"DM Mono",monospace;color:var(--txt2)}
+td.l{font-family:"Outfit";color:var(--txt)}
+tr.hl td{background:var(--ink3);color:var(--txt)}
+tr.hl td.l{color:var(--gold);font-weight:500}
+td.neg{color:var(--bad)}
+td.pos{color:var(--good)}
+
+.foot{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11.8px;color:var(--txt3);line-height:1.7}
+.foot b{color:var(--txt2)}
+@media print{
+  body{background:#fff;padding:0}
+  .panel,.case,.verdict{break-inside:avoid}
+  .presets,.hd-r{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hd">
+  <div>
+    <div class="eyebrow">VFX Auto · Tài liệu truyền thông nội bộ · Khối kinh doanh</div>
+    <h1>Tặng bảo hiểm / phụ kiện cho khách:<br>báo trước thì <em>giữ được tiền</em>, báo sau thì mất.</h1>
+    <div class="lede">Cùng một món quà, cùng một số tiền bạn bỏ ra — nhưng lương net cuối tháng chênh nhau,
+      chỉ vì thời điểm bạn báo cho công ty. Kéo thanh trượt để xem số của chính mình.</div>
+  </div>
+  <div class="hd-r">
+    <button class="tbtn" onclick="toggleTheme()" id="tbtn">☀ Nền sáng</button>
+    <button class="tbtn" onclick="window.print()">⎙ In</button>
+  </div>
+</div>
+
+<!-- INPUTS -->
+<div class="panel">
+  <h2>Nhập số của bạn</h2>
+  <div class="sub">Tất cả đơn vị: triệu đồng / tháng. Số mặc định là ví dụ minh hoạ, không phải số thật của ai.</div>
+  <div class="presets" id="presets"></div>
+  <div class="inputs" id="inputs"></div>
+</div>
+
+<!-- VERDICT -->
+<div class="verdict" id="verdict">
+  <div class="vnum" id="v-num">—</div>
+  <div class="vtxt">
+    <div class="vlbl" id="v-lbl">Số tiền bạn mất thêm nếu không báo trước</div>
+    <div class="vbody" id="v-body">—</div>
+  </div>
+  <div class="vside">
+    <div><div class="k">Thuế suất phần bị đánh thêm</div><div class="v" id="v-marg">—</div></div>
+    <div><div class="k">Nếu lặp lại 12 tháng</div><div class="v" id="v-year">—</div></div>
+  </div>
+</div>
+
+<!-- TWO CASES -->
+<div class="cases">
+  <div class="case good">
+    <div class="chd">
+      <div class="ctag">Trường hợp 1 — có báo trước</div>
+      <h3>Công ty cấn trừ vào hoa hồng <u>trước thuế</u></h3>
+      <p>Bạn báo trước khi chốt deal. Công ty xuất hoá đơn bảo hiểm/phụ kiện cho khách,
+        đồng thời giảm hoa hồng của bạn ngay từ đầu. Phần tiền đó <b>không bao giờ là thu nhập của bạn</b> → không bị tính thuế.</p>
+    </div>
+    <div class="rows" id="rows-1"></div>
+  </div>
+  <div class="case bad">
+    <div class="chd">
+      <div class="ctag">Trường hợp 2 — không báo trước</div>
+      <h3>Công ty cấn trừ vào lương <u>sau thuế</u></h3>
+      <p>Công ty đã trả bạn đủ hoa hồng và đã khấu trừ thuế trên toàn bộ số đó.
+        Đến khi xuất bảo hiểm/phụ kiện mới trừ lại — coi như <b>bạn tự bỏ tiền túi đi mua</b>. Tiền đã chịu thuế rồi mới mất.</p>
+    </div>
+    <div class="rows" id="rows-2"></div>
+  </div>
+</div>
+
+<!-- LADDER -->
+<div class="panel">
+  <h2>Vì sao lệch? Nhìn vào bậc thuế trên cùng</h2>
+  <div class="sub">Thuế TNCN là <b>luỹ tiến từng phần</b>: phần thu nhập nằm ở bậc nào chỉ chịu thuế suất của bậc đó.
+    Phần tiền bạn tặng khách nằm ở <b>đỉnh</b> thu nhập — nên nó chịu đúng thuế suất bậc cao nhất bạn đang chạm tới.</div>
+  <div class="ladder" id="ladder"></div>
+  <div class="lkey">
+    <span><i style="background:var(--b1)"></i>5% · đến 10 tr</span>
+    <span><i style="background:var(--b2)"></i>10% · 10–30 tr</span>
+    <span><i style="background:var(--b3)"></i>20% · 30–60 tr</span>
+    <span><i style="background:var(--b4)"></i>30% · 60–100 tr</span>
+    <span><i style="background:var(--b5)"></i>35% · trên 100 tr</span>
+    <span><i style="background:var(--violet)"></i>Phần tặng khách</span>
+  </div>
+  <div class="note" id="ladder-note"></div>
+</div>
+
+<!-- MATRIX -->
+<div class="panel">
+  <h2>Bảng tra nhanh — mất thêm bao nhiêu theo giá trị quà tặng</h2>
+  <div class="sub">Giữ nguyên lương và hoa hồng hiện tại, chỉ thay đổi giá trị bảo hiểm/phụ kiện tặng khách.</div>
+  <table>
+    <thead><tr>
+      <th class="l">Giá trị tặng khách</th>
+      <th>Net — có báo trước</th>
+      <th>Net — không báo trước</th>
+      <th>Chênh lệch</th>
+      <th>% trên giá trị quà</th>
+    </tr></thead>
+    <tbody id="mtx"></tbody>
+  </table>
+  <div class="note ok"><b>Đọc bảng:</b> cột cuối chính là thuế suất bậc trên cùng của bạn.
+    Quà càng lớn, hoặc tháng bạn bán càng nhiều, thì phần mất thêm càng lớn — vì bạn bị đẩy lên bậc thuế cao hơn.</div>
+</div>
+
+<!-- HOW TO -->
+<div class="panel">
+  <h2>Cần làm gì</h2>
+  <div class="note ok"><b>Trước khi chốt deal:</b> báo phòng kinh doanh giá trị bảo hiểm / phụ kiện bạn cam kết tặng khách,
+    kèm thông tin deal. Kế toán sẽ xuất hoá đơn cho khách và ghi giảm hoa hồng của bạn ngay trong kỳ đó.</div>
+  <div class="note warn"><b>Nếu báo sau khi đã chốt lương:</b> kỳ lương đã khoá, thuế đã khấu trừ và đã nộp cho cơ quan thuế.
+    Công ty không thể tính lùi — chỉ còn cách trừ vào lương net. Phần thuế chênh lệch không lấy lại được.</div>
+  <div class="note"><b>Lưu ý quan trọng:</b> cơ chế cấn trừ trước thuế chỉ đúng khi nó là <b>điều chỉnh hoa hồng theo chính sách</b> —
+    tức là hoa hồng thực trả của bạn giảm xuống, có chứng từ, và hoá đơn bảo hiểm/phụ kiện xuất cho khách hàng.
+    Đây không phải cách "lách thuế": thu nhập thật của bạn thấp hơn thật, nên thuế thấp hơn thật.</div>
+</div>
+
+<div class="foot">
+  <b>Cơ sở tính:</b> Biểu thuế luỹ tiến từng phần 5 bậc và mức giảm trừ gia cảnh 15,5 triệu đồng/tháng cho bản thân
+  + 6,2 triệu đồng/tháng cho mỗi người phụ thuộc, áp dụng từ kỳ tính thuế 2026.
+  Bảo hiểm bắt buộc trích 10,5% trên mức lương đóng bảo hiểm.<br>
+  <b>Phạm vi:</b> Công cụ mô phỏng phục vụ truyền thông nội bộ — minh hoạ cơ chế, không thay thế bảng lương chính thức.
+  Số thuế thực tế do phòng Kế toán tính theo hồ sơ đăng ký người phụ thuộc và quyết toán cuối năm.<br>
+  <span style="opacity:.7">VFX Auto · v1.0 · <span id="ts"></span></span>
+</div>
+
+</div>
+
+<script>
+/* ============ TAX ENGINE — biểu 5 bậc, kỳ tính thuế 2026 ============ */
+const BRACKETS=[
+  {to:10,  rate:.05, key:'b1'},
+  {to:30,  rate:.10, key:'b2'},
+  {to:60,  rate:.20, key:'b3'},
+  {to:100, rate:.30, key:'b4'},
+  {to:Infinity, rate:.35, key:'b5'}
+];
+const GTGC_SELF=15.5, GTGC_DEP=6.2, BH_RATE=.105;
+
+function pit(tntt){
+  if(tntt<=0) return {tax:0,parts:[],marg:0};
+  let prev=0, tax=0, parts=[], marg=0;
+  for(const b of BRACKETS){
+    const amt=Math.min(Math.max(tntt-prev,0), b.to-prev);
+    if(amt>0){ tax+=amt*b.rate; parts.push({rate:b.rate,key:b.key,amt,from:prev}); marg=b.rate; }
+    prev=b.to;
+    if(tntt<=b.to) break;
+  }
+  return {tax,parts,marg};
+}
+
+/* ============ SCENARIO ============ */
+function calc(P){
+  const gross = P.luong + P.hh;                 // tổng thu nhập chịu thuế gốc
+  const bh    = P.bhBase * BH_RATE;
+  const gtgc  = GTGC_SELF + GTGC_DEP*P.npt;
+
+  // TH1 — cấn trừ TRƯỚC thuế
+  const gross1 = Math.max(gross - P.qua, 0);
+  const tntt1  = Math.max(gross1 - bh - gtgc, 0);
+  const t1     = pit(tntt1);
+  const net1   = gross1 - bh - t1.tax;
+
+  // TH2 — cấn trừ SAU thuế
+  const gross2 = gross;
+  const tntt2  = Math.max(gross2 - bh - gtgc, 0);
+  const t2     = pit(tntt2);
+  const net2   = gross2 - bh - t2.tax - P.qua;
+
+  return {gross,bh,gtgc,
+    c1:{gross:gross1,tntt:tntt1,tax:t1.tax,marg:t1.marg,parts:t1.parts,net:net1},
+    c2:{gross:gross2,tntt:tntt2,tax:t2.tax,marg:t2.marg,parts:t2.parts,net:net2},
+    delta:net1-net2, taxDelta:t2.tax-t1.tax};
+}
+
+/* ============ INPUT CONFIG ============ */
+const F={
+  luong:{val:8,  min:0, max:40,  step:.5, name:'Lương cứng + phụ cấp chịu thuế', unit:'tr', hint:'Phần cố định hàng tháng, chưa gồm hoa hồng'},
+  hh:   {val:40, min:0, max:200, step:1,  name:'Hoa hồng + lương KPI tháng này', unit:'tr', hint:'Tổng hoa hồng bán xe của kỳ lương', hi:true},
+  qua:  {val:15, min:0, max:60,  step:1,  name:'Giá trị bảo hiểm / phụ kiện tặng khách', unit:'tr', hint:'Phần bạn cam kết tặng, do bạn chịu', hi:true},
+  npt:  {val:1,  min:0, max:5,   step:1,  name:'Số người phụ thuộc đã đăng ký', unit:'người', hint:'Mỗi người giảm trừ 6,2 tr/tháng'},
+  bhBase:{val:8, min:0, max:50,  step:.5, name:'Mức lương đóng bảo hiểm', unit:'tr', hint:'Thường bằng lương cứng, trích 10,5%'}
+};
+const PRESETS=[
+  {n:'Tháng trung bình', v:{luong:8, hh:40,  qua:15, npt:1, bhBase:8}},
+  {n:'Tháng bán mạnh',   v:{luong:8, hh:85,  qua:25, npt:1, bhBase:8}},
+  {n:'Bán xe cao cấp',   v:{luong:10,hh:130, qua:40, npt:2, bhBase:10}},
+  {n:'Mới vào nghề',     v:{luong:7, hh:18,  qua:8,  npt:0, bhBase:7}}
+];
+
+/* ============ FORMAT ============ */
+const fmtVnd=v=>Math.round(v*1e6).toLocaleString('vi-VN')+' đ';
+const fmtTr =v=>(Math.abs(v)<10?v.toFixed(1):v.toFixed(1)).replace('.',',')+' tr';
+const fmtPct=v=>(v*100).toFixed(0)+'%';
+
+/* ============ BUILD INPUTS ============ */
+const inp=document.getElementById('inputs');
+Object.entries(F).forEach(([k,f])=>{
+  const d=document.createElement('div'); d.className='fld';
+  d.innerHTML=`<label for="i-${k}">${f.name}<b id="o-${k}" class="${f.hi?'hi':''}"></b></label>
+    <input type="range" id="i-${k}" min="${f.min}" max="${f.max}" step="${f.step}" value="${f.val}">
+    <div class="hint">${f.hint}</div>`;
+  inp.appendChild(d);
+  d.querySelector('input').addEventListener('input',e=>{F[k].val=+e.target.value; markPreset(null); render();});
+});
+const pw=document.getElementById('presets');
+PRESETS.forEach((p,i)=>{
+  const b=document.createElement('button'); b.className='pbtn'; b.textContent=p.n;
+  b.onclick=()=>{Object.entries(p.v).forEach(([k,v])=>{F[k].val=v; document.getElementById('i-'+k).value=v;});
+    markPreset(i); render();};
+  pw.appendChild(b);
+});
+function markPreset(i){[...pw.children].forEach((b,j)=>b.classList.toggle('on',j===i));}
+
+/* ============ RENDER ============ */
+function render(){
+  Object.entries(F).forEach(([k,f])=>{
+    document.getElementById('o-'+k).textContent =
+      f.unit==='người' ? f.val+' người' : fmtTr(f.val);
+  });
+  const P={luong:F.luong.val,hh:F.hh.val,qua:F.qua.val,npt:F.npt.val,bhBase:F.bhBase.val};
+  const R=calc(P);
+
+  /* --- verdict --- */
+  const vd=document.getElementById('verdict');
+  vd.classList.toggle('zero', R.delta<0.0005);
+  document.getElementById('v-num').textContent = R.delta<0.0005 ? '0 đ' : fmtVnd(R.delta);
+  document.getElementById('v-marg').textContent = fmtPct(R.c2.marg);
+  document.getElementById('v-year').textContent = fmtVnd(R.delta*12);
+  document.getElementById('v-lbl').textContent = R.delta<0.0005
+    ? 'Tháng này hai cách cho kết quả như nhau'
+    : 'Số tiền bạn mất thêm nếu không báo trước';
+  document.getElementById('v-body').innerHTML = R.delta<0.0005
+    ? `Với mức thu nhập và quà tặng hiện tại, thu nhập tính thuế của bạn vẫn bằng 0 ở cả hai cách — chưa đến ngưỡng chịu thuế. Nhưng chỉ cần hoa hồng tăng lên, chênh lệch sẽ xuất hiện ngay.`
+    : `Cùng tặng khách <b>${fmtTr(P.qua)}</b>, cùng bỏ ra đúng số tiền đó.
+       Nhưng nếu không báo trước, phần quà này vẫn bị tính là thu nhập của bạn và chịu thuế
+       <b>${fmtPct(R.c2.marg)}</b> — nên lương net cuối cùng thấp hơn <b>${fmtVnd(R.delta)}</b>.`;
+
+  /* --- case rows --- */
+  const bhTxt=`${fmtVnd(R.bh)}`;
+  document.getElementById('rows-1').innerHTML=`
+    ${row('Lương cứng + phụ cấp',P.luong)}
+    ${row('Hoa hồng công ty duyệt',P.hh)}
+    ${row('Cấn trừ bảo hiểm / phụ kiện',-P.qua,'cut','−')}
+    ${row('Thu nhập chịu thuế',R.c1.gross,'sum','=')}
+    ${row('Bảo hiểm bắt buộc 10,5%',-R.bh,'','−')}
+    ${row('Giảm trừ gia cảnh',-R.gtgc,'','−')}
+    ${row('Thu nhập tính thuế',R.c1.tntt,'sum','=')}
+    ${row('Thuế TNCN phải nộp',-R.c1.tax,'tax','−')}
+    <div class="row dim"><span class="lb"><span class="op">−</span>Cấn trừ sau thuế</span><span class="vl">không có</span></div>
+    ${row('Lương net thực nhận',R.c1.net,'final','=')}`;
+
+  document.getElementById('rows-2').innerHTML=`
+    ${row('Lương cứng + phụ cấp',P.luong)}
+    ${row('Hoa hồng công ty duyệt',P.hh)}
+    <div class="row dim"><span class="lb"><span class="op">−</span>Cấn trừ trước thuế</span><span class="vl">không có</span></div>
+    ${row('Thu nhập chịu thuế',R.c2.gross,'sum','=')}
+    ${row('Bảo hiểm bắt buộc 10,5%',-R.bh,'','−')}
+    ${row('Giảm trừ gia cảnh',-R.gtgc,'','−')}
+    ${row('Thu nhập tính thuế',R.c2.tntt,'sum','=')}
+    ${row('Thuế TNCN phải nộp',-R.c2.tax,'tax','−')}
+    ${row('Cấn trừ bảo hiểm / phụ kiện',-P.qua,'cut','−')}
+    ${row('Lương net thực nhận',R.c2.net,'final','=')}`;
+
+  renderLadder(R,P);
+  renderMatrix(P);
+}
+
+function row(lb,v,cls='',op=''){
+  return `<div class="row ${cls}"><span class="lb">${op?`<span class="op">${op}</span>`:''}${lb}</span>
+    <span class="vl">${fmtVnd(Math.abs(v))}</span></div>`;
+}
+
+/* --- ladder: stacked bracket bar for both cases --- */
+function renderLadder(R,P){
+  const scale=Math.max(R.c2.tntt,1)*1.06;
+  const bar=(c,isC2)=>{
+    let x=0,html='';
+    c.parts.forEach(p=>{
+      const w=p.amt/scale*100;
+      html+=`<i class="lfill" style="left:${x}%;width:${w}%;background:var(--${p.key});opacity:.85"></i>`;
+      x+=w;
+    });
+    if(isC2 && P.qua>0){
+      const sliceW=Math.min(P.qua,c.tntt)/scale*100;
+      const sliceL=Math.max(x-sliceW,0);
+      html+=`<i class="lslice" style="left:${sliceL}%;width:${sliceW}%"></i>`;
+    }
+    return html;
+  };
+  document.getElementById('ladder').innerHTML=`
+    <div class="lrow">
+      <div class="lname">Có báo trước<span>cấn trừ trước thuế</span></div>
+      <div class="lbar">${bar(R.c1,false)}</div>
+      <div class="lval">TNTT <b>${fmtTr(R.c1.tntt)}</b><br>thuế ${fmtVnd(R.c1.tax)}</div>
+    </div>
+    <div class="lrow">
+      <div class="lname">Không báo trước<span>cấn trừ sau thuế</span></div>
+      <div class="lbar">${bar(R.c2,true)}</div>
+      <div class="lval">TNTT <b>${fmtTr(R.c2.tntt)}</b><br>thuế ${fmtVnd(R.c2.tax)}</div>
+    </div>`;
+
+  document.getElementById('ladder-note').innerHTML = R.taxDelta<0.0005
+    ? `Hiện tại phần quà tặng chưa chạm vào phần thu nhập chịu thuế của bạn, nên chưa phát sinh chênh lệch.`
+    : `<b>Phần gạch chéo</b> là ${fmtTr(Math.min(P.qua,R.c2.tntt))} tiền quà tặng bị "kẹt" lại trong thu nhập tính thuế
+       khi bạn không báo trước. Nó nằm ở bậc <b>${fmtPct(R.c2.marg)}</b> — nên bạn nộp thêm
+       <b>${fmtVnd(R.taxDelta)}</b> tiền thuế cho khoản tiền mà bạn <b>không hề được giữ</b>.`;
+}
+
+/* --- matrix --- */
+function renderMatrix(P){
+  const cur=P.qua;
+  const list=[0,5,10,15,20,25,30,40,50];
+  if(!list.includes(cur)) { list.push(cur); list.sort((a,b)=>a-b); }
+  document.getElementById('mtx').innerHTML=list.map(q=>{
+    const R=calc({...P,qua:q});
+    const pct=q>0?(R.delta/q*100):0;
+    return `<tr class="${q===cur?'hl':''}">
+      <td class="l">${fmtTr(q)}${q===cur?' &nbsp;· hiện tại':''}</td>
+      <td>${fmtVnd(R.c1.net)}</td>
+      <td>${fmtVnd(R.c2.net)}</td>
+      <td class="${R.delta>0.0005?'neg':''}">${R.delta>0.0005?'−'+fmtVnd(R.delta):'—'}</td>
+      <td>${q>0?pct.toFixed(1).replace('.',',')+'%':'—'}</td></tr>`;
+  }).join('');
+}
+
+/* --- theme --- */
+function toggleTheme(){
+  const h=document.documentElement;
+  const mist=h.getAttribute('data-theme')==='mist';
+  h.setAttribute('data-theme', mist?'':'mist');
+  document.getElementById('tbtn').textContent = mist?'☀ Nền sáng':'☾ Nền tối';
+}
+
+document.getElementById('ts').textContent=new Date().toLocaleDateString('vi-VN');
+markPreset(0);
+render();
+</script>
+</body>
+</html>
