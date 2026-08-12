@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VFX × Dat Bike — Thẩm định phương án đầu tư</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap&subset=latin,latin-ext,vietnamese" rel="stylesheet">
+<style>
+:root{
+  --s-cream:#F7F5EF; --s-cream-warm:#EFEBE0; --s-white:#FFFFFF;
+  --s-green:#00704A; --s-forest:#1E3932; --s-deep:#14261F; --s-green-soft:#D4E9E2;
+  --s-ink:#1E3932; --s-muted:#5C6B66; --s-dim:#637069;
+  --s-line:#DFDBD0; --s-line-dark:#2C4A40;
+  --s-gold:#C9A227; --s-warn:#A6603A; --s-ok:#00704A;
+  --s-serif:'Noto Serif Display',Georgia,serif;
+  --s-sans:'Outfit',system-ui,sans-serif;
+  --s-mono:'DM Mono',ui-monospace,monospace;
+  --s-r:14px; --s-pad:20px 22px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--s-cream);color:var(--s-ink);
+     font-family:var(--s-sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+h1{font-family:var(--s-serif);font-weight:600;font-size:clamp(28px,4.6vw,44px);line-height:1.12;letter-spacing:-.015em;margin:0 0 .3em}
+h2{font-family:var(--s-serif);font-weight:600;font-size:clamp(21px,3.2vw,28px);line-height:1.2;margin:0 0 .5em}
+h3{font-size:16px;font-weight:600;margin:0 0 .4em}
+.s-eyebrow{font-family:var(--s-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--s-dim)}
+.s-meta{font-family:var(--s-mono);font-size:10.5px;color:var(--s-dim)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.s-card{border-radius:var(--s-r);border:1px solid var(--s-line);background:var(--s-white);padding:var(--s-pad);box-shadow:none}
+.s-note{border-left:3px solid var(--s-green);background:var(--s-white);padding:13px 17px;border-radius:0 10px 10px 0}
+.s-note.warn{border-left-color:var(--s-warn);background:#FDF6F1}
+.s-note.gold{border-left-color:var(--s-gold);background:#FDFAF0}
+.s-btn{display:inline-block;border:1.5px solid var(--s-green);color:var(--s-green);background:transparent;
+  border-radius:999px;padding:8px 20px;font:500 13.5px var(--s-sans);cursor:pointer;text-decoration:none;transition:background .18s,color .18s}
+.s-btn:hover{background:rgba(0,112,74,.07)}
+.s-btn-pri{background:var(--s-green);color:#fff;border-color:var(--s-green)}
+.s-btn-pri:hover{background:#005c3c}
+.s-btn-on-green{border-color:#fff;color:#fff}
+.s-btn-on-green:hover{background:rgba(255,255,255,.12)}
+.s-btn.sm{padding:5px 14px;font-size:12px}
+.s-table{width:100%;border-collapse:collapse;background:var(--s-white)}
+.s-table th{background:var(--s-forest);color:#fff;font-family:var(--s-mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:400}
+.s-table td{padding:9px 12px;border-bottom:1px solid var(--s-line);font-size:13.5px}
+.s-table tbody tr:nth-child(even){background:var(--s-cream-warm)}
+.s-table td.n,.s-table th.n{text-align:right;font-family:var(--s-mono);font-size:12.5px}
+input,select,textarea,button,a{outline:none}
+input:focus,select:focus,textarea:focus,.s-btn:focus-visible,.tab:focus-visible{
+  border-color:var(--s-green);box-shadow:0 0 0 3px rgba(0,112,74,.18)}
+
+/* ── hero split ── */
+.hero{background:var(--s-forest);color:#fff}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;padding-top:34px;padding-bottom:34px;align-items:center}
+.hero h1{color:#fff}
+.hero .lede{color:#CFE0D9;font-size:15px;max-width:52ch;margin:0}
+.hero .s-eyebrow{color:#8FB3A6}
+.verdict{border:1px solid var(--s-line-dark);border-radius:var(--s-r);padding:18px 20px;background:rgba(255,255,255,.05)}
+.verdict .vlabel{font-family:var(--s-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8FB3A6}
+.verdict .vval{font-family:var(--s-serif);font-size:38px;line-height:1.1;font-weight:600;margin:2px 0 6px}
+.verdict .vwhy{font-size:13px;color:#CFE0D9}
+.v-go{color:#9FE0B8} .v-neg{color:#E8C86A} .v-no{color:#E9A585}
+
+/* ── nav ── */
+/* ── khung 2 cột ── */
+.shell{display:grid;grid-template-columns:minmax(252px,20%) 1fr;align-items:start}
+.shell>*{min-width:0}
+aside.panel{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+  background:var(--s-cream-warm);border-right:1px solid var(--s-line);z-index:25}
+.panel-head{background:var(--s-forest);color:#fff;padding:11px 15px 12px;flex:0 0 auto}
+.panel-head .s-eyebrow{color:#8FB3A6}
+.panel-head .presets{margin-top:8px}
+.panel-body{flex:1 1 auto;overflow-y:auto;padding:13px 15px 18px}
+.panel-live{flex:0 0 auto;background:var(--s-white);border-bottom:1px solid var(--s-line);padding:10px 15px 12px}
+.plive{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px}
+.plive div{min-width:0}
+.plive .k{font-family:var(--s-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--s-dim)}
+.plive .v{font-family:var(--s-serif);font-size:19px;font-weight:600;line-height:1.15}
+.panel .fgroup{margin-bottom:9px;background:var(--s-white);border:1px solid var(--s-line);border-radius:11px;padding:2px 12px 4px}
+.panel .fgroup h3{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;
+  font-size:13.5px;padding:9px 0;margin:0;border-bottom:1px solid var(--s-line);user-select:none}
+.panel .fgroup.closed h3{border-bottom-color:transparent}
+.panel .fgroup h3 .chev{font-family:var(--s-mono);font-size:11px;color:var(--s-dim);transition:transform .18s}
+.panel .fgroup.closed h3 .chev{transform:rotate(-90deg)}
+.panel .fgroup.closed .fitems{display:none}
+.panel .fitems{padding:7px 0 6px}
+.panel .fld{grid-template-columns:1fr 66px;gap:5px 8px;padding:3px 0}
+.panel .fld .lab{font-size:12.5px;line-height:1.3}
+.panel .fld .lab small{font-size:9.5px}
+.panel .fld input[type=number]{font-size:12px;padding:3px 6px}
+.panel .fld input[type=range]{height:16px}
+.panel .fld .lab small{display:block;font-family:var(--s-mono);font-size:9.5px;letter-spacing:.02em}
+.panel .tg{text-transform:uppercase;letter-spacing:.08em}
+.panel .tg-PH{color:var(--s-warn)} .panel .tg-POL{color:#8A6D14} .panel .tg-VFX{color:var(--s-green)}
+.pbar{display:none}
+nav{position:sticky;top:0;z-index:20;background:var(--s-cream);border-bottom:1px solid var(--s-line)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:6px;padding-bottom:0}
+.tab{border:0;background:transparent;font:500 13.5px var(--s-sans);color:var(--s-muted);padding:11px 14px 9px;
+  cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent}
+.tab:hover{color:var(--s-ink)}
+.tab.on{color:var(--s-green);border-bottom-color:var(--s-green)}
+main{padding:28px 0 70px}
+.pane{display:none} .pane.on{display:block}
+.sect{margin-bottom:26px}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:980px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}
+  .hero .wrap{grid-template-columns:1fr}
+  .shell{grid-template-columns:1fr}
+  aside.panel{position:static;height:auto;border-right:0;border-bottom:1px solid var(--s-line)}
+  .panel-body{max-height:58vh}
+  aside.panel.closed .panel-body,aside.panel.closed .panel-live{display:none}
+  .pbar{display:inline-flex;align-items:center;gap:8px}}
+@media(max-width:560px){.g4{grid-template-columns:1fr}}
+
+/* ── KPI ── */
+.kpi{border:1px solid var(--s-line);border-radius:var(--s-r);background:var(--s-white);padding:15px 17px}
+.kpi .k{font-family:var(--s-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--s-dim)}
+.kpi .v{font-family:var(--s-serif);font-size:27px;font-weight:600;line-height:1.2;margin-top:3px}
+.kpi .s{font-size:12px;color:var(--s-muted)}
+.kpi.hero-k{background:var(--s-green-soft);border-color:#B9D9CE}
+.pos{color:var(--s-green)} .neg{color:var(--s-warn)}
+.pill{display:inline-block;font-family:var(--s-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--s-line);border-radius:999px;padding:1px 8px;color:var(--s-dim);background:var(--s-cream)}
+.pill.ok{border-color:#B9D9CE;background:var(--s-green-soft);color:var(--s-green)}
+.pill.ph{border-color:#E4C9B8;background:#FDF6F1;color:var(--s-warn)}
+.pill.pol{border-color:#EADFB8;background:#FDFAF0;color:#8A6D14}
+
+/* ── inputs ── */
+.fgroup{margin-bottom:18px}
+.fgroup h3{display:flex;align-items:center;gap:9px;padding-bottom:7px;border-bottom:1px solid var(--s-line);margin-bottom:11px}
+.fld{display:grid;grid-template-columns:1fr 92px;gap:9px 12px;align-items:center;padding:5px 0}
+.fld .lab{font-size:13.5px;line-height:1.35}
+.fld .lab small{display:block;font-family:var(--s-mono);font-size:10px;color:var(--s-dim);letter-spacing:.04em}
+.fld input[type=number]{width:100%;font-family:var(--s-mono);font-size:13px;text-align:right;padding:5px 8px;
+  border:1px solid var(--s-line);border-radius:8px;background:var(--s-white);color:var(--s-ink)}
+.fld input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--s-green);height:20px;margin:0}
+.fld.tog{grid-template-columns:1fr auto}
+.switch{position:relative;width:44px;height:24px;border-radius:999px;background:var(--s-line);cursor:pointer;transition:background .18s;border:0}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .18s}
+.switch.on{background:var(--s-green)}
+.switch.on::after{left:23px}
+.presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ── charts ── */
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--s-mono);font-size:10.5px;color:var(--s-dim);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* ── tornado / matrix ── */
+.tor{display:grid;grid-template-columns:190px 1fr;gap:4px 12px;align-items:center;font-size:13px}
+.tor .tl{text-align:right;color:var(--s-muted);font-size:12.5px}
+.mx td.n{font-family:var(--s-mono);font-size:12px;text-align:right}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+.pol-h{background:var(--s-forest);color:#fff;border-radius:var(--s-r);padding:22px 24px}
+.pol-h h2{color:#fff;margin-bottom:.2em}
+.pol-h p{color:#CFE0D9;margin:0;font-size:14px}
+footer{border-top:1px solid var(--s-line);padding:20px 0 40px;color:var(--s-dim)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{body{background:#fff}nav,.s-btn,.presets{display:none!important}.pane{display:block!important}
+  .hero{background:#fff;color:#000}.hero h1,.hero .lede{color:#000}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="s-eyebrow">VFX Auto × Dat Bike · #001.datbikemodel · v3</div>
+      <h1>Một cửa hàng Dat Bike tự nuôi được mình chưa, rồi mới nói tới ba cửa hàng</h1>
+      <p class="lede">P&amp;L tách hai tầng theo khung BCQT: <strong>kinh doanh xe</strong> và <strong>xưởng dịch vụ</strong>, ghép lại sau. Cấp một cửa hàng có dòng tiền riêng, tính cả phần vốn Dat Bike hỗ trợ, ra tiền thuần còn lại.</p>
+    </div>
+    <div class="verdict">
+      <div class="vlabel">Kết luận sàng lọc</div>
+      <div class="vval" id="vVal">—</div>
+      <div class="vwhy" id="vWhy">—</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+<aside class="panel" id="panel">
+  <div class="panel-head">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <div class="s-eyebrow">Bảng điều khiển giả định</div>
+      <button class="s-btn sm s-btn-on-green pbar" id="btnPanel">Đóng</button>
+    </div>
+    <div class="presets">
+      <button class="s-btn sm s-btn-on-green" data-preset="low">Thấp</button>
+      <button class="s-btn sm s-btn-on-green s-btn-pri" data-preset="base">Cơ sở</button>
+      <button class="s-btn sm s-btn-on-green" data-preset="high">Cao</button>
+    </div>
+    <div class="presets" style="margin-top:6px">
+      <button class="s-btn sm s-btn-on-green" id="btnReset">Đặt lại</button>
+      <button class="s-btn sm s-btn-on-green" id="btnJson">Tải JSON</button>
+    </div>
+  </div>
+  <div class="panel-live" id="liveBox"></div>
+  <div class="panel-body" id="inputsAll"></div>
+</aside>
+
+<div class="colmain">
+<nav><div class="wrap" id="tabs"></div></nav>
+<main class="wrap">
+
+<!-- ===== p0 QUYẾT ĐỊNH ===== -->
+<section class="pane on" id="p0">
+  <div class="sect grid g4" id="kpiRow"></div>
+  <div class="sect grid g2">
+    <div class="s-card">
+      <div class="s-eyebrow">Hai tầng, một cửa hàng ở trạng thái ổn định</div>
+      <h2 style="margin-top:4px">Tầng nào nuôi tầng nào</h2>
+      <div class="scroll"><table class="s-table" id="tierTbl"></table></div>
+      <div class="s-note" style="margin-top:14px" id="tierNote"></div>
+    </div>
+    <div class="s-card">
+      <div class="s-eyebrow">Ba lăng kính</div>
+      <h2 style="margin-top:4px">Standalone · Gia tăng · Vốn</h2>
+      <div class="scroll"><table class="s-table" id="lensTbl"></table></div>
+      <div class="s-meta" style="margin-top:10px">Lăng kính gia tăng cộng thêm tiết kiệm nhờ dùng chung nguồn lực VFX và trừ chi phí cơ hội mặt bằng.</div>
+    </div>
+  </div>
+  <div class="sect s-card">
+    <div class="s-eyebrow">Dòng tiền tích luỹ toàn chuỗi · lăng kính gia tăng</div>
+    <h2 style="margin-top:4px">Hố tiền sâu bao nhiêu, lấp lại khi nào</h2>
+    <div id="chartCum"></div>
+  </div>
+  <div class="sect grid g2">
+    <div class="s-card"><h3>Cổng chính sách</h3><div id="gates"></div></div>
+    <div class="s-card"><h3>Rủi ro ngoài mô hình</h3>
+      <ul style="margin:6px 0 0;padding-left:20px;font-size:13.5px">
+        <li><strong>Điều kiện 3S là điều kiện chặn.</strong> Không có xưởng đạt chuẩn thì mất toàn bộ thưởng chỉ tiêu — xưởng không phải lựa chọn, là bắt buộc.</li>
+        <li><strong>OEM tồn tại</strong> — mất trắng vốn nếu Dat Bike dừng.</li>
+        <li><strong>Phụ tùng &amp; SLA</strong> — pin không có chiết khấu, thiếu phụ tùng thì xưởng đứng.</li>
+        <li><strong>Tồn kho</strong> — trả 100% trước khi nhận xe, không có điều khoản trả hàng.</li>
+        <li><strong>Nhóm 3.2 chế tài</strong> — cấm trưng bày sản phẩm hãng khác tại điểm bán, đụng phương án dùng chung mặt bằng VinFast.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== p1 MỘT CỬA HÀNG ===== -->
+<section class="pane" id="p1">
+  <div class="sect grid g3" id="oneKpi"></div>
+
+  <div class="sect s-card">
+    <div class="s-eyebrow">P&amp;L một cửa hàng · khung BCQT · triệu đồng</div>
+    <h2 style="margin-top:4px">Tầng bán xe và tầng xưởng, tách rồi ghép</h2>
+    <div class="scroll" style="margin-top:14px"><table class="s-table" id="plTbl"></table></div>
+    <div class="s-meta" style="margin-top:10px">Mã dòng theo bảng tài khoản BCQT VFX. Năm 1 tính từ tháng khai trương của chính cửa hàng đó, không phải năm dương lịch.</div>
+  </div>
+
+  <div class="sect grid g2">
+    <div class="s-card">
+      <div class="s-eyebrow">Cấu phần EBITDA ổn định · 1 CH</div>
+      <h2 style="margin-top:4px">Tiền đến từ đâu</h2>
+      <div id="chartWf"></div>
+    </div>
+    <div class="s-card">
+      <div class="s-eyebrow">Xưởng lệch pha bán xe</div>
+      <h2 style="margin-top:4px">Tệp xe và EBITDA hai tầng theo tháng</h2>
+      <div id="chartTier"></div>
+    </div>
+  </div>
+
+  <div class="sect s-card">
+    <div class="s-eyebrow">Dòng tiền một cửa hàng · gồm phần vốn Dat Bike hỗ trợ</div>
+    <h2 style="margin-top:4px">Từ lãi sau thuế xuống tiền thuần còn lại</h2>
+    <div class="scroll" style="margin-top:14px"><table class="s-table" id="cfTbl"></table></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="s-note" id="supNote"></div>
+      <div class="s-note warn" id="fundNote"></div>
+    </div>
+  </div>
+
+  <div class="sect s-card">
+    <div class="s-eyebrow">Chi tiết 18 tháng đầu · 1 cửa hàng</div>
+    <h2 style="margin-top:4px">Giai đoạn quyết định</h2>
+    <div class="scroll" style="margin-top:12px"><table class="s-table" id="m18Tbl"></table></div>
+  </div>
+</section>
+
+<!-- ===== p2 CHÍNH SÁCH ===== -->
+<section class="pane" id="p2">
+  <div class="sect pol-h">
+    <div class="s-eyebrow" style="color:#8FB3A6">Nguồn · 2 văn bản</div>
+    <h2>Chính sách gốc và chỗ nó chạm vào mô hình</h2>
+    <p>Chính sách Thương mại Dat Bike 2026 (24/06/2026, hiệu lực 01/07/2026) và Chính sách hỗ trợ đối tác mở 3 cửa hàng Quý 3/2026.</p>
+  </div>
+
+  <div class="sect s-card">
+    <h3>A · Chiết khấu bán xe → tầng KD</h3>
+    <div class="scroll"><table class="s-table">
+      <thead><tr><th>Khoản</th><th class="n">Mức</th><th>Điều kiện</th><th>Dòng BCQT</th></tr></thead>
+      <tbody>
+        <tr><td>Chiết khấu cơ bản, bán trực tiếp</td><td class="n">7,00%</td><td>Đơn tối thiểu 12 xe</td><td>CG001.01</td></tr>
+        <tr><td>Chiết khấu cơ bản, đơn O2O</td><td class="n">5,00%</td><td>CH loại A · CSAT ≥87% · DSAT ≤3/tháng · ≥2 KTV đạt chuẩn</td><td>CG001.01</td></tr>
+        <tr><td>Thưởng chỉ tiêu mua vào tháng</td><td class="n">tối đa 0,50%</td><td>80–89,99%→0,2% · 90–99,99%→0,35% · ≥100%→0,5%</td><td>CG001.02</td></tr>
+        <tr><td>Thưởng chỉ tiêu quý</td><td class="n">tối đa 1,00%</td><td>Không tháng nào dưới 80% chỉ tiêu tháng</td><td>CG001.02</td></tr>
+        <tr><td>Thưởng chỉ tiêu năm</td><td class="n">tối đa 0,50%</td><td>Không quý nào dưới 80% chỉ tiêu quý</td><td>CG001.02</td></tr>
+        <tr><td>Phụ kiện · gói bảo hành nâng cấp</td><td class="n">20,00% + thưởng DS</td><td>Thưởng tháng/quý/năm 1,0% / 3,0% / 1,0%</td><td>NR004 / CG004</td></tr>
+      </tbody></table></div>
+    <div class="s-note warn" style="margin-top:14px"><strong>Điều kiện chặn nằm ở xưởng, không nằm ở showroom.</strong> Toàn bộ thưởng chỉ tiêu chỉ áp dụng cho cửa hàng loại A <strong>và là cửa hàng 3S</strong> — bán hàng, sửa chữa/bảo hành/bảo dưỡng, và phụ tùng. Cộng thêm tồn kho xe mới ≥50% chỉ tiêu tháng tại ngày 01. Nghĩa là tầng XDV dù lỗ trong hai năm đầu vẫn phải mở, vì nó mở khoá 2 điểm % biên của tầng KD.</div>
+  </div>
+
+  <div class="sect s-card">
+    <h3>B · Dịch vụ sau bán hàng → tầng XDV</h3>
+    <div class="scroll"><table class="s-table">
+      <thead><tr><th>Khoản</th><th class="n">Mức</th><th>Ghi chú</th><th>Dòng BCQT</th></tr></thead>
+      <tbody>
+        <tr><td>Nhân công bảo hành Dat Bike trả</td><td class="n">100.000 đ/giờ</td><td>× thời gian định mức do DB ban hành, DB có quyền quyết định cuối cùng</td><td>NR003.02</td></tr>
+        <tr><td>Chiết khấu phụ tùng — sạc, mạch</td><td class="n">15% / 12%</td><td>đơn định kỳ / đơn không theo kế hoạch</td><td>CG003.01</td></tr>
+        <tr><td>Chiết khấu phụ tùng khác</td><td class="n">20% / 15%</td><td>đơn định kỳ / đơn không theo kế hoạch</td><td>CG003.01</td></tr>
+        <tr><td><strong>Pin</strong></td><td class="n">không áp dụng</td><td>Không có biên trên phụ tùng đắt nhất của xe điện</td><td>CG003.01</td></tr>
+        <tr><td>Thưởng duy trì chất lượng</td><td class="n">tối đa 5%</td><td>trên giá trị đơn phụ tùng tháng · CSAT ≥87% · ≥1 KTV bậc 1</td><td>OI000002</td></tr>
+        <tr><td>Đặt cọc phụ tùng</td><td class="n">tối thiểu 30 tr</td><td>Công nợ không vượt giá trị cọc; tụt dưới mức phải bù trước ngày 15</td><td>vốn lưu động</td></tr>
+      </tbody></table></div>
+    <div class="s-note gold" style="margin-top:14px"><strong>Pin không có chiết khấu</strong> là điều đáng chú ý nhất của tầng XDV. Với xe máy điện, pin là cấu phần giá trị cao nhất và cũng là thứ hỏng đắt nhất. Đại lý làm dịch vụ pin mà không có biên, chỉ có công. Mô hình đang gộp chung một tỷ lệ chiết khấu phụ tùng — nếu cơ cấu thay pin cao hơn dự kiến, biên XDV thực tế thấp hơn con số ở đây.</div>
+  </div>
+
+  <div class="sect s-card">
+    <h3>C · Gói hỗ trợ mở mới — 3 cửa hàng Quý 3/2026</h3>
+    <div class="grid g3" style="margin:12px 0">
+      <div class="kpi"><div class="k">Hạn mức tín dụng</div><div class="v">3.000 tr</div><div class="s">/CH, hoặc bằng 1 tháng mua hàng — lấy mức thấp hơn. Chỉ dùng trả tiền hàng.</div></div>
+      <div class="kpi"><div class="k">Hỗ trợ xây dựng</div><div class="v">750 tr</div><div class="s">75 tr/m mặt tiền, từ 8m đến tối đa 10m.</div></div>
+      <div class="kpi"><div class="k">Hỗ trợ marketing</div><div class="v">300 tr</div><div class="s">Khai trương, dùng trong 6 tháng đầu.</div></div>
+    </div>
+    <div class="scroll"><table class="s-table">
+      <thead><tr><th>Hạng</th><th class="n">FA trung bình</th><th class="n">S ≥150 xe/T/CH</th><th class="n">S 80–149 xe/T/CH</th><th class="n">Trần hỗ trợ/tháng/CH</th></tr></thead>
+      <tbody>
+        <tr><td>Diamond</td><td class="n">95–100%</td><td class="n">100%</td><td class="n">50%</td><td class="n">30 tr</td></tr>
+        <tr><td>Platinum</td><td class="n">90–94%</td><td class="n">80%</td><td class="n">40%</td><td class="n">24 tr</td></tr>
+        <tr><td>Gold</td><td class="n">80–89%</td><td class="n">50%</td><td class="n">25%</td><td class="n">15 tr</td></tr>
+        <tr><td>Silver</td><td class="n">70–79%</td><td class="n">25%</td><td class="n">12,5%</td><td class="n">7,5 tr</td></tr>
+        <tr><td>Standard</td><td class="n">&lt;70%</td><td class="n">0%</td><td class="n">0%</td><td class="n">0</td></tr>
+      </tbody></table></div>
+    <div class="s-note" style="margin-top:14px"><strong>Hỗ trợ là cấn trừ, không phải tiền mặt.</strong> Lãi vay trả trực tiếp cho ngân hàng, Dat Bike cấn vào đơn hàng quý kế tiếp — giảm chi tiền mua xe trong tương lai. Ba tháng đầu được xếp thẳng Diamond nếu S ≥150 xe/T/CH. Cliff cứng ở 80 xe/tháng/CH: dưới ngưỡng thì tháng đó hỗ trợ về 0, không hồi tố, nhưng vẫn kéo bình quân quý xuống làm rớt hạng quý sau. Cả 3 cửa hàng phải khai trương trễ nhất 30/09/2026.</div>
+  </div>
+</section>
+
+<!-- ===== p3 CHUỖI ===== -->
+<section class="pane" id="p3">
+  <div class="sect grid g2">
+    <div class="s-card">
+      <div class="s-eyebrow">Dòng tiền tự do theo tháng · toàn chuỗi</div>
+      <h2 style="margin-top:4px">Không làm mượt</h2>
+      <div id="chartMonthly"></div>
+    </div>
+    <div class="s-card">
+      <div class="s-eyebrow">Vốn Dat Bike tài trợ</div>
+      <h2 style="margin-top:4px">Ai bỏ tiền vào cửa hàng này</h2>
+      <div id="chartFund"></div>
+    </div>
+  </div>
+  <div class="sect s-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px">
+      <div><div class="s-eyebrow">Dự phóng 5 năm · toàn chuỗi</div><h2 style="margin:4px 0 0">Bảng dòng tiền theo năm</h2></div>
+      <button class="s-btn sm" id="btnCsv">Tải CSV theo tháng</button>
+    </div>
+    <div class="scroll" style="margin-top:14px"><table class="s-table" id="annualTbl"></table></div>
+    <div class="s-meta" style="margin-top:10px">Đơn vị: triệu đồng. Thuế TNDN 20% có kết chuyển lỗ. Vốn lưu động thu hồi và dư nợ hoàn trả ở tháng 60 của từng cửa hàng.</div>
+  </div>
+</section>
+
+<!-- ===== p4 ĐỘ NHẠY ===== -->
+<section class="pane" id="p4">
+  <div class="sect s-card">
+    <div class="s-eyebrow">Xếp hạng ảnh hưởng · NPV gia tăng toàn chuỗi</div>
+    <h2 style="margin-top:4px">Biến nào quyết định deal này</h2>
+    <p class="s-meta" style="margin-bottom:14px">Kéo riêng từng biến theo biên độ ghi bên phải, giữ nguyên mọi biến khác.</p>
+    <div id="tornado"></div>
+  </div>
+  <div class="sect s-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px">
+      <div><div class="s-eyebrow">Ma trận hai chiều</div><h2 style="margin:4px 0 0">NPV gia tăng, triệu đồng</h2></div>
+      <label class="s-meta">Trục ngang
+        <select id="mxVar" style="font-family:var(--s-sans);font-size:13px;padding:5px 9px;border:1px solid var(--s-line);border-radius:8px;background:#fff;color:var(--s-ink);margin-left:6px">
+          <option value="asp">Giá bán lẻ bình quân</option>
+          <option value="opexKD">Định phí showroom</option>
+          <option value="opexDV">Định phí xưởng</option>
+          <option value="bonus">Thưởng chỉ tiêu</option>
+          <option value="partsRO">Phụ tùng / lượt vào xưởng</option>
+          <option value="visits">Tần suất vào xưởng</option>
+          <option value="capexKD">CAPEX showroom</option>
+        </select>
+      </label>
+    </div>
+    <div class="scroll" style="margin-top:14px"><table class="s-table mx" id="mxTbl"></table></div>
+    <div class="s-meta" style="margin-top:9px">Hàng dọc là sản lượng ổn định mỗi cửa hàng. Bậc thang ở mốc 80 xe là cliff hỗ trợ lãi suất, không phải hiệu ứng quy mô.</div>
+  </div>
+</section>
+
+<!-- ===== p5 NGƯỠNG ===== -->
+<section class="pane" id="p5">
+  <div class="sect grid g3" id="thrRow"></div>
+  <div class="sect s-card">
+    <div class="s-eyebrow">Giải ngược</div>
+    <h2 style="margin-top:4px">Điểm hoà vốn NPV của từng biến</h2>
+    <div class="scroll" style="margin-top:12px"><table class="s-table" id="thrTbl"></table></div>
+  </div>
+  <div class="sect grid g2">
+    <div class="s-card"><h3>Gói đàm phán đề xuất với Dat Bike</h3><div id="negoList"></div></div>
+    <div class="s-card">
+      <h3>Điều kiện tiên quyết trước khi ký</h3>
+      <ol style="margin:6px 0 0;padding-left:20px;font-size:13.5px">
+        <li>Thời gian bảo hành định mức theo từng hạng mục — đây là toàn bộ doanh thu công bảo hành, mà DB giữ quyền quyết định cuối cùng.</li>
+        <li>Chính sách phụ tùng pin: có biên hay không, ai chịu rủi ro bảo hành pin.</li>
+        <li>Chỉ tiêu mua vào tháng/quý/năm bằng số tuyệt đối cho 12 tháng đầu.</li>
+        <li>Văn bản chấp thuận cấu hình mặt bằng nếu dùng chung với showroom VinFast.</li>
+        <li>Cam kết phân bổ lead O2O tối thiểu và độc quyền địa bàn.</li>
+        <li>Cơ chế và độ trễ thực tế của việc cấn trừ hỗ trợ lãi suất.</li>
+        <li>Điều khoản thoát nếu OEM ngừng cung cấp trong 24 tháng đầu.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="s-meta">VFX × Dat Bike · Investment appraisal · <span data-ver></span> · <span data-stamp></span></div>
+  <div class="s-meta">Tài liệu nội bộ. Không phát hành công khai.</div>
+</footer>
+</main>
+</div><!-- /colmain -->
+</div><!-- /shell -->
+
+<script>
+"use strict";
+const APP_VERSION='v3.0';
+const BUILD_STAMP='12/08/2026 · scope: P&L 2 tầng KD/XDV theo khung BCQT · model 1 CH · dòng tiền có hỗ trợ vốn DB';
+const LS_KEY='vfx_datbike_appraisal_v3';
+
+/* ═══════ 1. CHÍNH SÁCH ═══════ */
+const POLICY={discDirect:0.07,discO2O:0.05,creditCap:3000,constrCap:750,mktCap:300,
+  gateUnits:80,tierUnits:150,laborRate:0.1/* tr/giờ */,qcCap:5};
+const TIERS=[{fa:95,hi:1.00,lo:0.50,name:'Diamond'},{fa:90,hi:0.80,lo:0.40,name:'Platinum'},
+             {fa:80,hi:0.50,lo:0.25,name:'Gold'},{fa:70,hi:0.25,lo:0.125,name:'Silver'}];
+function subsidyTier(u,fa){ if(u<POLICY.gateUnits) return {rate:0,name:'Đóng cổng 80 xe'};
+  for(const t of TIERS){ if(fa>=t.fa) return {rate:u>=POLICY.tierUnits?t.hi:t.lo,name:t.name}; }
+  return {rate:0,name:'Standard'}; }
+
+/* ═══════ 2. TRƯỜNG NHẬP ═══════ */
+const FIELDS=[
+ {g:'Quy mô & sản lượng',items:[
+  {k:'stores',l:'Số cửa hàng mở mới',u:'CH',min:1,max:6,step:1,tag:'PH'},
+  {k:'openLag',l:'Độ trễ khai trương CH thứ 2 trở đi',u:'tháng',min:0,max:6,step:1,tag:'POL'},
+  {k:'vol',l:'Sản lượng ổn định',u:'xe/T/CH',min:20,max:200,step:5,tag:'PH'},
+  {k:'ramp',l:'Số tháng ramp',u:'tháng',min:1,max:24,step:1,tag:'PH'},
+  {k:'rampStart',l:'Sản lượng tháng đầu',u:'% mức ổn định',min:10,max:100,step:5,tag:'PH'},
+  {k:'asp',l:'Giá bán lẻ bình quân',u:'tr/xe',min:20,max:90,step:1,tag:'PH'},
+  {k:'o2o',l:'Tỷ trọng đơn O2O',u:'%',min:0,max:60,step:1,tag:'PH'}]},
+ {g:'Tầng KD — biên xe',items:[
+  {k:'bonus',l:'Thưởng chỉ tiêu thực nhận (CG001.02)',u:'% giá mua',min:0,max:2,step:0.1,tag:'PH'},
+  {k:'custDisc',l:'Giảm giá cho khách',u:'% giá bán lẻ',min:0,max:5,step:0.1,tag:'PH'},
+  {k:'pkRev',l:'Doanh thu phụ kiện + gói BH (NR004)',u:'tr/xe',min:0,max:8,step:0.1,tag:'PH'},
+  {k:'pkMargin',l:'Biên phụ kiện + gói BH',u:'%',min:0,max:35,step:1,tag:'POL'},
+  {k:'gift',l:'Quà tặng, khuyến mại (DC001.01)',u:'tr/xe',min:0,max:4,step:0.1,tag:'PH'},
+  {k:'comm',l:'Lương doanh số TVBH (DC001.03)',u:'tr/xe',min:0,max:4,step:0.1,tag:'PH'}]},
+ {g:'Tầng XDV — xưởng dịch vụ',items:[
+  {k:'retain',l:'Tỷ lệ xe bán ra ở lại tệp xưởng',u:'%',min:0,max:100,step:5,tag:'PH'},
+  {k:'churn',l:'Rơi rụng tệp xe',u:'%/tháng',min:0,max:5,step:0.1,tag:'PH'},
+  {k:'visits',l:'Tần suất vào xưởng',u:'lượt/xe/năm',min:0,max:6,step:0.1,tag:'PH'},
+  {k:'bays',l:'Số bàn nâng',u:'bàn',min:1,max:8,step:1,tag:'POL'},
+  {k:'roBayDay',l:'Năng suất',u:'lượt/bàn/ngày',min:1,max:16,step:1,tag:'PH'},
+  {k:'labourRO',l:'Doanh thu công / lượt (NR003.01)',u:'tr',min:0,max:2,step:0.05,tag:'PH'},
+  {k:'partsRO',l:'Doanh thu phụ tùng / lượt',u:'tr',min:0,max:4,step:0.05,tag:'PH'},
+  {k:'partsDisc',l:'Chiết khấu phụ tùng bình quân',u:'%',min:0,max:20,step:1,tag:'POL'},
+  {k:'bhRate',l:'Tỷ lệ lượt là bảo hành',u:'%',min:0,max:100,step:5,tag:'PH'},
+  {k:'bhHours',l:'Giờ định mức bảo hành / lượt',u:'giờ',min:0,max:5,step:0.1,tag:'POL'},
+  {k:'ktvShare',l:'Lương khoán KTV (DC003.05)',u:'% DT công',min:0,max:50,step:1,tag:'PH'},
+  {k:'qcBonus',l:'Thưởng duy trì chất lượng (OI000002)',u:'% đơn phụ tùng',min:0,max:5,step:0.5,tag:'POL'}]},
+ {g:'Định phí & quản lý',items:[
+  {k:'opexKD',l:'Định phí showroom, tiền mặt (SE100)',u:'tr/T/CH',min:20,max:400,step:5,tag:'PH'},
+  {k:'opexDV',l:'Định phí xưởng, tiền mặt (SE300)',u:'tr/T/CH',min:0,max:300,step:5,tag:'PH'},
+  {k:'ge',l:'Quản lý chung phân bổ (GE000)',u:'tr/T/CH',min:0,max:150,step:5,tag:'PH'},
+  {k:'shared',l:'Tiết kiệm nhờ dùng chung nguồn lực VFX',u:'tr/T/CH',min:0,max:200,step:5,tag:'PH'},
+  {k:'opp',l:'Chi phí cơ hội mặt bằng, nhân sự',u:'tr/T/CH',min:0,max:150,step:5,tag:'PH'},
+  {k:'maint',l:'CAPEX duy trì',u:'% doanh thu',min:0,max:2,step:0.1,tag:'VFX'}]},
+ {g:'Đầu tư & nguồn vốn',items:[
+  {k:'capexKD',l:'CAPEX showroom',u:'tr/CH',min:200,max:3000,step:50,tag:'PH'},
+  {k:'capexDV',l:'CAPEX xưởng, thiết bị, bàn nâng',u:'tr/CH',min:0,max:2000,step:50,tag:'PH'},
+  {k:'wc',l:'Vốn lưu động (tồn kho xe, phụ tùng, cọc 30tr)',u:'tr/CH',min:0,max:3000,step:50,tag:'PH'},
+  {k:'credit',l:'Hạn mức tín dụng sử dụng',u:'tr/CH',min:0,max:3000,step:100,tag:'POL'},
+  {k:'rate',l:'Lãi suất vay',u:'%/năm',min:0,max:20,step:0.5,tag:'POL'}]},
+ {g:'Gói hỗ trợ Dat Bike',items:[
+  {k:'constr',l:'Hỗ trợ xây dựng',u:'tr/CH',min:0,max:750,step:25,tag:'POL'},
+  {k:'mkt',l:'Hỗ trợ marketing khai trương',u:'tr/CH',min:0,max:300,step:25,tag:'POL'},
+  {k:'realiz',l:'Tỷ lệ hỗ trợ thực nhận',u:'%',min:0,max:100,step:5,tag:'PH'},
+  {k:'supMonth',l:'Tháng nhận hỗ trợ XD/MKT',u:'tháng',min:1,max:12,step:1,tag:'PH'},
+  {k:'fa',l:'Độ chính xác dự báo FA',u:'%',min:50,max:100,step:1,tag:'PH'},
+  {k:'subLag',l:'Độ trễ cấn trừ hỗ trợ lãi suất',u:'tháng',min:0,max:6,step:1,tag:'POL'},
+  {k:'supTax',l:'Hỗ trợ XD/MKT chịu thuế TNDN',u:'',type:'toggle',tag:'VFX'}]},
+ {g:'Tiêu chí đầu tư VFX',items:[
+  {k:'hurdle',l:'Suất chiết khấu yêu cầu',u:'%/năm',min:5,max:30,step:1,tag:'VFX'},
+  {k:'maxPB',l:'Hoàn vốn tối đa',u:'tháng',min:12,max:72,step:6,tag:'VFX'},
+  {k:'tax',l:'Thuế TNDN',u:'%',min:0,max:25,step:1,tag:'POL'}]}
+];
+const PRESETS={
+ base:{stores:3,openLag:1,vol:80,ramp:12,rampStart:30,asp:55,o2o:20,
+   bonus:1.0,custDisc:0,pkRev:2.0,pkMargin:22,gift:0.3,comm:1.0,
+   bays:2,roBayDay:7,retain:70,churn:1.5,visits:2.0,labourRO:0.35,partsRO:0.6,partsDisc:18,bhRate:25,bhHours:1.5,ktvShare:15,qcBonus:3,
+   opexKD:150,opexDV:80,ge:25,shared:75,opp:15,maint:0.3,
+   capexKD:1200,capexDV:600,wc:1600,credit:1600,rate:12,
+   constr:750,mkt:300,realiz:100,supMonth:3,fa:95,subLag:3,supTax:0,hurdle:15,maxPB:48,tax:20},
+ low:{stores:3,openLag:1,vol:55,ramp:18,rampStart:20,asp:52,o2o:35,
+   bonus:0.2,custDisc:1.0,pkRev:1.2,pkMargin:18,gift:0.6,comm:1.2,
+   bays:2,roBayDay:5,retain:50,churn:2.5,visits:1.4,labourRO:0.25,partsRO:0.4,partsDisc:14,bhRate:35,bhHours:1.0,ktvShare:18,qcBonus:0,
+   opexKD:175,opexDV:95,ge:30,shared:40,opp:30,maint:0.4,
+   capexKD:1400,capexDV:750,wc:1800,credit:1600,rate:12,
+   constr:600,mkt:300,realiz:60,supMonth:6,fa:78,subLag:4,supTax:0,hurdle:15,maxPB:48,tax:20},
+ high:{stores:3,openLag:1,vol:110,ramp:8,rampStart:40,asp:58,o2o:12,
+   bonus:1.6,custDisc:0,pkRev:3.0,pkMargin:25,gift:0.2,comm:0.9,
+   bays:3,roBayDay:8,retain:85,churn:1.0,visits:2.6,labourRO:0.45,partsRO:0.85,partsDisc:20,bhRate:20,bhHours:1.8,ktvShare:13,qcBonus:5,
+   opexKD:135,opexDV:70,ge:20,shared:100,opp:10,maint:0.25,
+   capexKD:1050,capexDV:520,wc:1400,credit:2200,rate:12,
+   constr:750,mkt:300,realiz:100,supMonth:2,fa:97,subLag:3,supTax:0,hurdle:15,maxPB:48,tax:20}
+};
+let S=Object.assign({},PRESETS.base), curPreset='base';
+
+/* ═══════ 3. ENGINE — P&L 2 TẦNG ═══════ */
+const N=60;
+function rampF(m,s){ if(s.ramp<=1) return 1; const r0=s.rampStart/100;
+  return m>=s.ramp?1:r0+(1-r0)*(m-1)/(s.ramp-1); }
+function unitEcon(s){
+  const w=POLICY.discDirect*(1-s.o2o/100)+POLICY.discO2O*(s.o2o/100);
+  const buy=s.asp*(1-w), sell=s.asp*(1-s.custDisc/100), bonusVal=buy*s.bonus/100;
+  return {w,buy,sell,bonusVal,front:sell-buy+bonusVal};
+}
+/** Dòng P&L + dòng tiền của MỘT cửa hàng, 60 tháng. */
+function storeMonths(s){
+  const U=unitEcon(s), rows=[];
+  const depKD=s.capexKD/N, depDV=s.capexDV/N, mRate=s.rate/100/12, iv=s.credit*mRate;
+  const sub=new Array(N+8).fill(0);
+  let parc=0;
+  for(let m=1;m<=N;m++){
+    const vol=s.vol*rampF(m,s);
+    /* ---- TẦNG A · KD XE ---- */
+    const nr001=vol*U.sell;
+    const cg001a=-vol*U.buy;
+    const cg001b=vol*U.bonusVal;
+    const gp001=nr001+cg001a+cg001b;
+    const nr004=vol*s.pkRev, gp004=nr004*s.pkMargin/100, cg004=gp004-nr004;
+    const dc001a=-vol*s.gift, dc001c=-vol*s.comm;
+    const seKD=-s.opexKD;
+    const ebitdaKD=gp001+gp004+dc001a+dc001c+seKD;
+    /* ---- TẦNG B · XDV ---- */
+    parc=parc*(1-s.churn/100)+vol*s.retain/100;
+    const roDemand=parc*s.visits/12;
+    const roCap=s.bays*s.roBayDay*26;          // trần vật lý: bàn nâng × năng suất × 26 ngày
+    const ro=Math.min(roDemand,roCap);
+    const util=roCap>0?ro/roCap*100:0;
+    const nr003a=ro*s.labourRO;                         // công + phụ tùng khách trả (công)
+    const ptRev=ro*s.partsRO;                            // doanh thu phụ tùng
+    const ptCogs=-ptRev*(1-s.partsDisc/100);
+    const nr003b=ro*(s.bhRate/100)*s.bhHours*POLICY.laborRate;  // công bảo hành DB trả
+    const dc003e=-(nr003a+nr003b)*s.ktvShare/100;        // lương khoán KTV
+    const oi2=(-ptCogs)*s.qcBonus/100;                   // thưởng duy trì chất lượng
+    const seDV=-s.opexDV;
+    const ebitdaDV=nr003a+ptRev+ptCogs+nr003b+dc003e+oi2+seDV;
+    /* ---- GHÉP ---- */
+    const ge=-s.ge;
+    const ebitdaSA=ebitdaKD+ebitdaDV+ge;                 // standalone
+    const ebitdaINC=ebitdaSA+s.shared-s.opp;             // gia tăng VFX
+    const rev=nr001+nr004+nr003a+ptRev+nr003b;
+    const dep=depKD+depDV;
+    const t=subsidyTier(vol,s.fa);
+    if(m+s.subLag<=N) sub[m+s.subLag]+=iv*t.rate;
+    rows.push({m,vol,parc,ro,roDemand,roCap,util,nr001,cg001a,cg001b,gp001,nr004,cg004,gp004,dc001a,dc001c,seKD,ebitdaKD,
+      nr003a,ptRev,ptCogs,nr003b,dc003e,oi2,seDV,ebitdaDV,ge,ebitdaSA,ebitdaINC,rev,dep,depKD,depDV,
+      int:iv,tier:t,maint:rev*s.maint/100});
+  }
+  const supp=(s.constr+s.mkt)*s.realiz/100;
+  let lossA=0,lossB=0;
+  const fcfA=new Array(N+1).fill(0), fcfB=new Array(N+1).fill(0);
+  const capex0=s.capexKD+s.capexDV;
+  fcfA[0]=-(capex0+s.wc);
+  fcfB[0]=-(capex0+s.wc-s.credit);
+  rows.forEach(r=>{
+    r.sub=sub[r.m]; r.supp=(r.m===s.supMonth)?supp:0;
+    let tbA=r.ebitdaSA-r.dep, taxA=0;
+    if(tbA>0){const u=Math.min(tbA,lossA); lossA-=u; taxA=(tbA-u)*s.tax/100;} else lossA+=-tbA;
+    let tbB=r.ebitdaINC-r.dep-r.int+r.sub+(s.supTax?r.supp:0), taxB=0;
+    if(tbB>0){const u=Math.min(tbB,lossB); lossB-=u; taxB=(tbB-u)*s.tax/100;} else lossB+=-tbB;
+    r.ebitSA=r.ebitdaSA-r.dep; r.taxA=taxA;
+    r.lntt=r.ebitdaINC-r.dep-r.int; r.taxB=taxB; r.lnst=r.lntt-taxB;
+    r.fcfA=r.ebitdaSA-taxA-r.maint;
+    r.fcfB=r.ebitdaINC-taxB-r.maint-r.int+r.sub+r.supp;
+    fcfA[r.m]=r.fcfA; fcfB[r.m]=r.fcfB;
+  });
+  fcfA[N]+=s.wc; fcfB[N]+=s.wc-s.credit;
+  return {rows,fcfA,fcfB,U,supp,capex0};
+}
+function npv(cf,a){const r=Math.pow(1+a/100,1/12)-1;let v=0;for(let i=0;i<cf.length;i++)v+=cf[i]/Math.pow(1+r,i);return v;}
+function irr(cf){
+  const f=r=>{let v=0;for(let i=0;i<cf.length;i++)v+=cf[i]/Math.pow(1+r,i);return v;};
+  const grid=[];for(let r=-0.20;r<=3.0;r+=0.005)grid.push(r);
+  let lo=null,hi=null,fl=f(grid[0]);
+  for(let i=1;i<grid.length;i++){const fv=f(grid[i]);
+    if(isFinite(fl)&&isFinite(fv)&&fl*fv<=0){lo=grid[i-1];hi=grid[i];break;} fl=fv;}
+  if(lo==null)return null;
+  for(let i=0;i<120;i++){const mid=(lo+hi)/2;(f(lo)*f(mid)<=0)?hi=mid:lo=mid;}
+  const a=(Math.pow(1+(lo+hi)/2,12)-1)*100; return isFinite(a)?Math.min(a,9999):null;
+}
+function payback(cf){let c=0;for(let i=0;i<cf.length;i++){c+=cf[i];if(i>0&&c>=0)return i;}return null;}
+function peakFund(cf){let c=0,p=0;for(let i=0;i<cf.length;i++){c+=cf[i];if(c<p)p=c;}return -p;}
+function calc(s,fast){
+  const st=storeMonths(s);
+  const off=[];for(let i=0;i<s.stores;i++)off.push(i===0?0:s.openLag);
+  const H=N+(s.stores>1?s.openLag:0);
+  const A=new Array(H+1).fill(0),B=new Array(H+1).fill(0);
+  off.forEach(o=>{for(let i=0;i<=N;i++){A[i+o]+=st.fcfA[i];B[i+o]+=st.fcfB[i];}});
+  const initA=s.stores*(st.capex0+s.wc), initB=s.stores*(st.capex0+s.wc-s.credit);
+  const mA={npv:npv(A,s.hurdle),irr:fast?null:irr(A),pb:payback(A),peak:peakFund(A),init:initA};
+  const mB={npv:npv(B,s.hurdle),irr:fast?null:irr(B),pb:payback(B),peak:peakFund(B),init:initB};
+  const ss=st.rows[N-1];
+  const subTot=st.rows.reduce((a,r)=>a+r.sub,0);
+  return {st,A,B,mA,mB,H,off,ss,subTot,suppOne:st.supp,U:st.U,
+    oneCF:st.fcfB,onePB:payback(st.fcfB),onePeak:peakFund(st.fcfB),
+    oneNPV:npv(st.fcfB,s.hurdle),oneIRR:fast?null:irr(st.fcfB),
+    tierNow:subsidyTier(s.vol,s.fa)};
+}
+
+/* ═══════ 4. ĐỊNH DẠNG ═══════ */
+const nf=(x,d=0)=>(x==null||!isFinite(x))?'—':x.toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d});
+const ty=x=>(x==null||!isFinite(x))?'—':(Math.abs(x)>=1000?nf(x/1000,2)+' tỷ':nf(x,0)+' tr');
+const sgn=x=>x>=0?'pos':'neg';
+const fIRR=x=>(x==null)?'—':(x>200?'>200%':nf(x,1)+'%');
+
+/* ═══════ 5. UI ═══════ */
+const TABS=[['①','Quyết định','p0'],['②','Một cửa hàng','p1'],['③','Chính sách gốc','p2'],
+            ['④','Chuỗi 60T','p3'],['⑤','Độ nhạy','p4'],['⑥','Ngưỡng & đàm phán','p5']];
+function activePane(){const b=document.querySelector('.tab.on');return b?b.dataset.p:'p0';}
+function buildTabs(){
+  document.getElementById('tabs').innerHTML=TABS.map((t,i)=>
+    `<button class="tab${i===0?' on':''}" data-p="${t[2]}">${t[0]} ${t[1]}</button>`).join('');
+  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');document.getElementById(b.dataset.p).classList.add('on');
+    renderActive();window.scrollTo({top:0,behavior:'instant'});});
+}
+const TAGTXT={POL:'chính sách',VFX:'nội bộ',PH:'placeholder'};
+function buildInputs(){
+  const host=document.getElementById('inputsAll');
+  host.innerHTML=FIELDS.map((g,gi)=>
+    `<div class="fgroup" data-g="${gi}"><h3 data-acc="${gi}">${g.g}<span class="chev">▾</span></h3><div class="fitems">`+
+    g.items.map(f=>{
+      const tg=`<span class="tg tg-${f.tag}">${TAGTXT[f.tag]}</span>`;
+      if(f.type==='toggle')return `<div class="fld tog"><div class="lab">${f.l}<small>${tg}</small></div>
+        <button class="switch" data-tog="${f.k}" aria-label="${f.l}"></button></div>`;
+      return `<div class="fld"><div class="lab">${f.l}<small>${tg} · ${f.u}</small></div>
+        <input type="number" data-num="${f.k}" min="${f.min}" max="${f.max}" step="${f.step}">
+        <input type="range" data-rng="${f.k}" min="${f.min}" max="${f.max}" step="${f.step}"></div>`;
+    }).join('')+`</div></div>`).join('')+
+    `<div class="s-note" style="padding:10px 12px;font-size:11.5px;line-height:1.5">
+      <span class="tg tg-POL">chính sách</span> từ văn bản gốc ·
+      <span class="tg tg-VFX">nội bộ</span> chính sách đầu tư VFX ·
+      <span class="tg tg-PH">placeholder</span> chưa ai xác nhận — đây là danh sách việc phải đi hỏi.</div>`;
+  host.querySelectorAll('[data-acc]').forEach(el=>el.onclick=()=>el.parentElement.classList.toggle('closed'));
+  host.querySelectorAll('[data-num]').forEach(el=>el.addEventListener('input',()=>{
+    const k=el.dataset.num,v=parseFloat(el.value);if(isNaN(v))return;
+    S[k]=v;const r=host.querySelector('[data-rng="'+k+'"]');if(r)r.value=v;onChange(false);}));
+  host.querySelectorAll('[data-rng]').forEach(el=>el.addEventListener('input',()=>{
+    const k=el.dataset.rng,v=parseFloat(el.value);
+    S[k]=v;const n=host.querySelector('[data-num="'+k+'"]');if(n)n.value=v;onChange(false);}));
+  host.querySelectorAll('[data-tog]').forEach(el=>el.addEventListener('click',()=>{
+    const k=el.dataset.tog;S[k]=S[k]?0:1;el.classList.toggle('on',!!S[k]);onChange(false);}));
+}
+function syncInputs(){
+  document.querySelectorAll('[data-num]').forEach(el=>{if(document.activeElement!==el)el.value=S[el.dataset.num];});
+  document.querySelectorAll('[data-rng]').forEach(el=>{el.value=S[el.dataset.rng];});
+  document.querySelectorAll('[data-tog]').forEach(el=>el.classList.toggle('on',!!S[el.dataset.tog]));
+}
+
+/* ═══════ 6. RENDER ═══════ */
+let R=null;
+function verdict(R){
+  const b=R.mB;
+  if(b.npv<=0) return {v:'KHÔNG ĐI',cls:'v-no',why:'NPV gia tăng âm ở suất chiết khấu '+S.hurdle+'%/năm. Xem tab ⑥ để biết cần gì mới đảo chiều.'};
+  const miss=[];
+  if(!(b.irr!=null&&b.irr>=S.hurdle)) miss.push('IRR '+fIRR(b.irr)+' dưới ngưỡng '+S.hurdle+'%');
+  if(!(b.pb!=null&&b.pb<=S.maxPB)) miss.push('hoàn vốn '+(b.pb??'>chân trời')+' tháng vượt giới hạn '+S.maxPB);
+  if(R.oneNPV<=0) miss.push('một cửa hàng đứng riêng vẫn âm NPV');
+  if(S.vol<POLICY.gateUnits) miss.push('sản lượng dưới cổng 80 xe nên mất hỗ trợ lãi suất');
+  if(miss.length) return {v:'ĐÀM PHÁN',cls:'v-neg',why:'NPV dương nhưng '+miss.join('; ')+'.'};
+  return {v:'ĐI TIẾP',cls:'v-go',why:'Qua sàng lọc: NPV '+ty(b.npv)+', IRR '+fIRR(b.irr)+', hoàn vốn '+b.pb+' tháng. Vẫn trên giả định chưa xác nhận.'};
+}
+function renderTop(){
+  const v=verdict(R);
+  const el=document.getElementById('vVal');el.textContent=v.v;el.className='vval '+v.cls;
+  document.getElementById('vWhy').textContent=v.why;
+  const b=R.mB;
+  document.getElementById('kpiRow').innerHTML=[
+    ['NPV gia tăng @'+S.hurdle+'%',ty(b.npv),S.stores+' cửa hàng',sgn(b.npv),true],
+    ['NPV một cửa hàng',ty(R.oneNPV),'đứng riêng, có hỗ trợ DB',sgn(R.oneNPV),true],
+    ['Hoàn vốn 1 CH',(R.onePB==null?'>60 T':R.onePB+' tháng'),'giới hạn '+S.maxPB+' tháng',(R.onePB!=null&&R.onePB<=S.maxPB)?'pos':'neg',false],
+    ['Đỉnh nhu cầu vốn',ty(b.peak),'toàn chuỗi',(b.peak>b.init*1.25)?'neg':'pos',false]
+  ].map(k=>`<div class="kpi${k[4]?' hero-k':''}"><div class="k">${k[0]}</div><div class="v ${k[3]}">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+
+  const r=R.ss;
+  const row=(l,a,b2,c)=>`<tr><td>${l}</td><td class="n">${a}</td><td class="n">${b2}</td><td class="n">${c}</td></tr>`;
+  document.getElementById('tierTbl').innerHTML=
+    `<thead><tr><th>Khoản mục · tr/tháng</th><th class="n">Tầng KD</th><th class="n">Tầng XDV</th><th class="n">Cộng</th></tr></thead><tbody>`+
+    row('Doanh thu',nf(r.nr001+r.nr004,0),nf(r.nr003a+r.ptRev+r.nr003b,0),nf(r.rev,0))+
+    row('Lãi gộp',nf(r.gp001+r.gp004,0),nf(r.nr003a+r.ptRev+r.ptCogs+r.nr003b,0),nf(r.gp001+r.gp004+r.nr003a+r.ptRev+r.ptCogs+r.nr003b,0))+
+    row('Chi phí trực tiếp',nf(r.dc001a+r.dc001c,0),nf(r.dc003e,0),nf(r.dc001a+r.dc001c+r.dc003e,0))+
+    row('Thưởng chất lượng','—',nf(r.oi2,1),nf(r.oi2,1))+
+    row('Định phí',nf(r.seKD,0),nf(r.seDV,0),nf(r.seKD+r.seDV,0))+
+    `<tr><td><strong>EBITDA tầng</strong></td><td class="n"><strong class="${sgn(r.ebitdaKD)}">${nf(r.ebitdaKD,0)}</strong></td><td class="n"><strong class="${sgn(r.ebitdaDV)}">${nf(r.ebitdaDV,0)}</strong></td><td class="n"><strong>${nf(r.ebitdaKD+r.ebitdaDV,0)}</strong></td></tr>`+
+    row('Quản lý chung','—','—',nf(r.ge,0))+
+    `<tr><td><strong>EBITDA cửa hàng</strong></td><td class="n">—</td><td class="n">—</td><td class="n"><strong class="${sgn(r.ebitdaSA)}">${nf(r.ebitdaSA,0)}</strong></td></tr>`+
+    row('Lượt vào xưởng / tệp xe','—',nf(r.ro,0)+' / '+nf(r.parc,0),'')+
+    row('Công suất xưởng đang dùng','—',nf(r.util,0)+'% của '+nf(r.roCap,0)+' lượt',
+        r.roDemand>r.roCap?'<span class="pill ph">chạm trần</span>':'')+`</tbody>`;
+
+  const dv=r.ebitdaDV;
+  document.getElementById('tierNote').innerHTML= dv<0
+    ? `Tầng XDV đang <strong>âm ${nf(-dv,0)} tr/tháng</strong> ở trạng thái ổn định. Nhưng bỏ xưởng thì mất điều kiện 3S, mất toàn bộ thưởng chỉ tiêu — tức mất <strong>${nf(r.cg001b,0)} tr/tháng</strong> ở tầng KD. Xưởng ở đây là chi phí để mua quyền nhận thưởng, không phải một trung tâm lợi nhuận.`
+    : `Tầng XDV đã dương <strong>${nf(dv,0)} tr/tháng</strong> khi tệp xe đạt ${nf(r.parc,0)} xe. Đây là phần thu nhập không phụ thuộc chỉ tiêu mua vào của hãng — giá trị thật của việc mở 3S.`;
+
+  const a=R.mA;
+  document.getElementById('lensTbl').innerHTML=
+    `<thead><tr><th>Chỉ tiêu</th><th class="n">A · Standalone</th><th class="n">B · Gia tăng</th></tr></thead><tbody>`+
+    `<tr><td>Vốn bỏ ra ban đầu</td><td class="n">${ty(a.init)}</td><td class="n">${ty(b.init)}</td></tr>`+
+    `<tr><td>EBITDA/tháng khi ổn định</td><td class="n">${ty(r.ebitdaSA*S.stores)}</td><td class="n">${ty(r.ebitdaINC*S.stores)}</td></tr>`+
+    `<tr><td>NPV @${S.hurdle}%</td><td class="n">${ty(a.npv)}</td><td class="n">${ty(b.npv)}</td></tr>`+
+    `<tr><td>IRR năm</td><td class="n">${fIRR(a.irr)}</td><td class="n">${fIRR(b.irr)}</td></tr>`+
+    `<tr><td>Hoàn vốn</td><td class="n">${a.pb==null?'>'+R.H+' T':a.pb+' T'}</td><td class="n">${b.pb==null?'>'+R.H+' T':b.pb+' T'}</td></tr>`+
+    `<tr><td>Đỉnh nhu cầu vốn</td><td class="n">—</td><td class="n">${ty(b.peak)}</td></tr>`+
+    `<tr><td>Hỗ trợ lãi suất 5 năm</td><td class="n">—</td><td class="n">${ty(R.subTot*S.stores)}</td></tr>`+
+    `<tr><td>Hỗ trợ XD + MKT</td><td class="n">—</td><td class="n">${ty(R.suppOne*S.stores)}</td></tr></tbody>`;
+
+  const t=R.tierNow, bep=(S.opexKD+S.opexDV+S.ge)/Math.max(0.01,(R.U.front+S.pkRev*S.pkMargin/100-S.gift-S.comm));
+  document.getElementById('gates').innerHTML=`<table class="s-table" style="margin-top:6px"><tbody>
+    <tr><td>Cổng hỗ trợ lãi suất ≥80 xe/T/CH</td><td class="n">${S.vol>=80?'<span class="pill ok">đang mở</span>':'<span class="pill ph">đang đóng</span>'}</td></tr>
+    <tr><td>Hạng theo FA ${S.fa}%</td><td class="n">${t.name} · ${nf(t.rate*100,1)}%</td></tr>
+    <tr><td>Điều kiện 3S cho thưởng chỉ tiêu</td><td class="n">${S.opexDV>0&&S.capexDV>0?'<span class="pill ok">có xưởng</span>':'<span class="pill ph">chưa có xưởng</span>'}</td></tr>
+    <tr><td>Hạn mức dùng / trần 3.000 tr</td><td class="n">${nf(S.credit)} tr ${S.credit>POLICY.creditCap?'<span class="pill ph">vượt trần</span>':''}</td></tr>
+    <tr><td>Sản lượng hoà toàn bộ định phí</td><td class="n">${nf(bep,0)} xe/T/CH ${bep>S.vol?'<span class="pill ph">chưa đạt</span>':''}</td></tr>
+    </tbody></table>
+    <div class="s-meta" style="margin-top:9px">Hoà vốn định phí tính riêng tầng KD gánh toàn bộ định phí showroom + xưởng + quản lý, chưa tính đóng góp của xưởng.</div>`;
+}
+
+/* ---- charts ---- */
+function lineChart(host,series,H,unitLbl){
+  const W=760,Hh=250,pl=58,pr=12,pt=14,pb=26;
+  const all=series.flatMap(s=>s.d);
+  let mn=Math.min(0,...all),mx=Math.max(0,...all);const pad=(mx-mn)*0.08||1;mn-=pad;mx+=pad;
+  const X=i=>pl+i*(W-pl-pr)/Math.max(1,H), Y=v=>pt+(mx-v)*(Hh-pt-pb)/(mx-mn||1);
+  let g='';
+  for(let i=0;i<=5;i++){const v=mn+(mx-mn)*i/5,y=Y(v);
+    g+=`<line x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}" stroke="#DFDBD0"/>
+        <text x="${pl-7}" y="${y+3.5}" text-anchor="end" font-family="DM Mono,monospace" font-size="9.5" fill="#637069">${unitLbl==='ty'?nf(v/1000,1)+' tỷ':nf(v,0)}</text>`;}
+  g+=`<line x1="${pl}" y1="${Y(0)}" x2="${W-pr}" y2="${Y(0)}" stroke="#1E3932" stroke-width="1.2"/>`;
+  for(let m=0;m<=H;m+=12)g+=`<text x="${X(m)}" y="${Hh-8}" text-anchor="middle" font-family="DM Mono,monospace" font-size="9.5" fill="#637069">T${m}</text>`;
+  series.forEach(s=>{const d=s.d.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+    g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="${s.w||2}" stroke-dasharray="${s.dash||''}"/>`;});
+  host.innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${Hh}" role="img">${g}</svg><div class="legend">`+
+    series.map(s=>`<span><i style="background:${s.c}"></i>${s.n}</span>`).join('')+`</div>`;
+}
+function barChart(host,data,H){
+  const W=760,Hh=230,pl=58,pr=12,pt=14,pb=26;
+  let mn=Math.min(0,...data),mx=Math.max(0,...data);const pad=(mx-mn)*0.08||1;mn-=pad;mx+=pad;
+  const bw=(W-pl-pr)/Math.max(1,H+1),Y=v=>pt+(mx-v)*(Hh-pt-pb)/(mx-mn||1);
+  let g='';
+  for(let i=0;i<=4;i++){const v=mn+(mx-mn)*i/4,y=Y(v);
+    g+=`<line x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}" stroke="#DFDBD0"/>
+        <text x="${pl-7}" y="${y+3.5}" text-anchor="end" font-family="DM Mono,monospace" font-size="9.5" fill="#637069">${nf(v,0)}</text>`;}
+  data.forEach((v,i)=>{const x=pl+i*bw,y0=Y(0),y=Y(v);
+    g+=`<rect x="${(x+bw*0.12).toFixed(1)}" y="${Math.min(y0,y).toFixed(1)}" width="${(bw*0.76).toFixed(1)}" height="${Math.max(0.6,Math.abs(y-y0)).toFixed(1)}" fill="${v>=0?'#00704A':'#A6603A'}"/>`;});
+  g+=`<line x1="${pl}" y1="${Y(0)}" x2="${W-pr}" y2="${Y(0)}" stroke="#1E3932" stroke-width="1.2"/>`;
+  for(let m=0;m<=H;m+=12)g+=`<text x="${(pl+m*bw+bw/2).toFixed(1)}" y="${Hh-8}" text-anchor="middle" font-family="DM Mono,monospace" font-size="9.5" fill="#637069">T${m}</text>`;
+  host.innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${Hh}" role="img">${g}</svg>
+    <div class="legend"><span><i style="background:#00704A"></i>Dương</span><span><i style="background:#A6603A"></i>Âm</span><span>triệu đồng/tháng</span></div>`;
+}
+function waterfall(host,items,total,lbl){
+  const W=760,Hh=250,pl=10,pr=12,pt=28,pb=46;
+  const pts=[];let run=0;
+  items.forEach(b=>{pts.push({l:b[0],from:run,to:run+b[1],v:b[1]});run+=b[1];});
+  pts.push({l:lbl,from:0,to:total,v:total,tot:true});
+  const vals=pts.flatMap(p=>[p.from,p.to]).concat([0]);
+  let mn=Math.min(...vals),mx=Math.max(...vals);const pad=(mx-mn)*0.14||1;mn-=pad;mx+=pad;
+  const bw=(W-pl-pr)/pts.length,Y=v=>pt+(mx-v)*(Hh-pt-pb)/(mx-mn||1);
+  let g=`<line x1="${pl}" y1="${Y(0)}" x2="${W-pr}" y2="${Y(0)}" stroke="#1E3932" stroke-width="1.2"/>`;
+  pts.forEach((p,i)=>{const x=pl+i*bw+bw*0.16,w=bw*0.68;
+    const y=Y(Math.max(p.from,p.to)),h=Math.max(1.2,Math.abs(Y(p.from)-Y(p.to)));
+    const c=p.tot?'#1E3932':(p.v>=0?'#00704A':'#A6603A');
+    g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="${c}"/>
+        <text x="${(x+w/2).toFixed(1)}" y="${(y-6).toFixed(1)}" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#1E3932">${nf(p.v,0)}</text>
+        <text x="${(x+w/2).toFixed(1)}" y="${Hh-26}" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10.5" fill="#5C6B66">${p.l}</text>`;});
+  host.innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${Hh}" role="img">${g}</svg>
+    <div class="legend"><span>Trạng thái ổn định · 1 cửa hàng · triệu đồng/tháng</span></div>`;
+}
+function renderCum(){
+  const cumB=[],cumA=[];let c=0,d=0;
+  for(let i=0;i<=R.H;i++){c+=R.B[i];cumB.push(c);d+=R.A[i];cumA.push(d);}
+  lineChart(document.getElementById('chartCum'),
+    [{n:'Tích luỹ — gia tăng VFX',d:cumB,c:'#00704A',w:2.4},
+     {n:'Tích luỹ — standalone',d:cumA,c:'#A6603A',w:1.6,dash:'5 4'}],R.H,'ty');
+}
+
+/* ---- p1: một cửa hàng ---- */
+function yrs(arr){const o=[];for(let y=0;y<5;y++){let s=0;for(let m=y*12;m<(y+1)*12;m++)s+=arr[m]||0;o.push(s);}return o;}
+function renderOne(){
+  const rows=R.st.rows, r=R.ss;
+  const col=f=>yrs(rows.map(f));
+  const line=(code,l,f,ind,bold)=>{
+    const a=col(f),t=a.reduce((x,y)=>x+y,0);
+    return `<tr><td style="${ind?'padding-left:26px;':''}${bold?'font-weight:600;':''}"><span class="s-meta" style="display:inline-block;width:64px">${code}</span>${l}</td>`+
+      a.map(v=>`<td class="n"${bold?' style="font-weight:600"':''}>${nf(v,0)}</td>`).join('')+
+      `<td class="n"${bold?' style="font-weight:600"':''}>${nf(t,0)}</td></tr>`;};
+  const sec=l=>`<tr style="background:var(--s-green-soft)"><td colspan="7" style="font-weight:600;font-size:12.5px;letter-spacing:.04em">${l}</td></tr>`;
+  let h='<thead><tr><th>Khoản mục</th><th class="n">Năm 1</th><th class="n">Năm 2</th><th class="n">Năm 3</th><th class="n">Năm 4</th><th class="n">Năm 5</th><th class="n">Cộng</th></tr></thead><tbody>';
+  h+=sec('TẦNG A · KINH DOANH XE');
+  h+=line('NR001','Doanh thu xe mới',x=>x.nr001);
+  h+=line('CG001.01','Giá vốn xe — giá mua buôn',x=>x.cg001a,1);
+  h+=line('CG001.02','Chiết khấu nhà máy — thưởng chỉ tiêu',x=>x.cg001b,1);
+  h+=line('GP001','Lãi gộp xe mới',x=>x.gp001,0,1);
+  h+=line('NR004','Doanh thu phụ kiện + gói bảo hành',x=>x.nr004);
+  h+=line('CG004','Giá vốn phụ kiện',x=>x.cg004,1);
+  h+=line('DC001.01','Quà tặng, khuyến mại',x=>x.dc001a,1);
+  h+=line('DC001.03','Lương doanh số TVBH',x=>x.dc001c,1);
+  h+=line('SE100','Định phí showroom (tiền mặt)',x=>x.seKD,1);
+  h+=line('','EBITDA tầng KD',x=>x.ebitdaKD,0,1);
+  h+=sec('TẦNG B · XƯỞNG DỊCH VỤ');
+  h+=line('','Lượt vào xưởng thực hiện',x=>x.ro);
+  h+=line('NR003.01','Doanh thu công sửa chữa, bảo dưỡng',x=>x.nr003a);
+  h+=line('NR003.01','Doanh thu phụ tùng',x=>x.ptRev,1);
+  h+=line('CG003.01','Giá vốn phụ tùng',x=>x.ptCogs,1);
+  h+=line('NR003.02','Doanh thu công bảo hành — Dat Bike trả',x=>x.nr003b);
+  h+=line('DC003.05','Lương khoán KTV',x=>x.dc003e,1);
+  h+=line('OI000002','Thưởng duy trì chất lượng',x=>x.oi2,1);
+  h+=line('SE300','Định phí xưởng (tiền mặt)',x=>x.seDV,1);
+  h+=line('','EBITDA tầng XDV',x=>x.ebitdaDV,0,1);
+  h+=sec('GHÉP HAI TẦNG');
+  h+=line('GE000','Chi phí quản lý chung',x=>x.ge);
+  h+=line('','EBITDA cửa hàng',x=>x.ebitdaSA,0,1);
+  h+=line('SE117/317','Khấu hao',x=>-x.dep,1);
+  h+=line('FE001','Chi phí lãi vay',x=>-x.int,1);
+  h+=line('','Tiết kiệm dùng chung − chi phí cơ hội',x=>x.ebitdaINC-x.ebitdaSA,1);
+  h+=line('PT000000','LÃI TRƯỚC THUẾ',x=>x.lntt,0,1);
+  h+=line('','Thuế TNDN',x=>-x.taxB,1);
+  h+=line('','LÃI SAU THUẾ',x=>x.lnst,0,1);
+  document.getElementById('plTbl').innerHTML=h+'</tbody>';
+
+  // KPI 1 CH
+  const suppTot=R.suppOne+R.subTot;
+  const equity=R.st.capex0+S.wc-S.credit;
+  document.getElementById('oneKpi').innerHTML=[
+    ['NPV một cửa hàng',ty(R.oneNPV),'@'+S.hurdle+'%/năm, 60 tháng',sgn(R.oneNPV)],
+    ['Vốn tự có phải bỏ',ty(equity),'CAPEX '+ty(R.st.capex0)+' + VLĐ '+ty(S.wc)+' − tín dụng '+ty(S.credit),''],
+    ['Dat Bike tài trợ',ty(suppTot),nf(suppTot/(R.st.capex0+S.wc)*100,0)+'% tổng vốn đầu tư ban đầu','pos']
+  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v ${k[3]}">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+
+  // waterfall
+  waterfall(document.getElementById('chartWf'),
+    [['Lãi gộp xe',r.gp001],['Lãi gộp phụ kiện',r.gp004],['CP bán hàng',r.dc001a+r.dc001c],
+     ['Định phí SR',r.seKD],['Lãi gộp XDV',r.nr003a+r.ptRev+r.ptCogs+r.nr003b+r.oi2],
+     ['Lương khoán KTV',r.dc003e],['Định phí xưởng',r.seDV],['Quản lý chung',r.ge]],
+    r.ebitdaSA,'EBITDA CH');
+
+  lineChart(document.getElementById('chartTier'),
+    [{n:'EBITDA tầng KD',d:rows.map(x=>x.ebitdaKD),c:'#00704A',w:2.2},
+     {n:'EBITDA tầng XDV',d:rows.map(x=>x.ebitdaDV),c:'#A6603A',w:2.2},
+     {n:'Tệp xe (÷10)',d:rows.map(x=>x.parc/10),c:'#C9A227',w:1.4,dash:'4 3'}],N,'tr');
+
+  // dòng tiền 1 CH
+  const cfLine=(l,f,ind,bold)=>{const a=yrs(rows.map(f)),t=a.reduce((x,y)=>x+y,0);
+    return `<tr><td style="${ind?'padding-left:22px;':''}${bold?'font-weight:600;':''}">${l}</td>`+
+      a.map(v=>`<td class="n"${bold?' style="font-weight:600"':''}>${nf(v,0)}</td>`).join('')+
+      `<td class="n"${bold?' style="font-weight:600"':''}>${nf(t,0)}</td></tr>`;};
+  let c='<thead><tr><th>Dòng tiền · 1 cửa hàng</th><th class="n">Năm 1</th><th class="n">Năm 2</th><th class="n">Năm 3</th><th class="n">Năm 4</th><th class="n">Năm 5</th><th class="n">Cộng</th></tr></thead><tbody>';
+  c+=cfLine('Lãi sau thuế',x=>x.lnst,0,1);
+  c+=cfLine('+ Khấu hao',x=>x.dep,1);
+  c+=cfLine('− CAPEX duy trì',x=>-x.maint,1);
+  c+=cfLine('+ Hỗ trợ xây dựng + marketing',x=>x.supp,1);
+  c+=cfLine('+ Hỗ trợ lãi suất (cấn trừ, trễ '+S.subLag+'T)',x=>x.sub,1);
+  const wcRow=new Array(N).fill(0); wcRow[N-1]=S.wc;
+  const crRow=new Array(N).fill(0); crRow[N-1]=-S.credit;
+  const wcY=yrs(wcRow),crY=yrs(crRow);
+  c+=`<tr><td style="padding-left:22px">± Vốn lưu động thu hồi</td>`+wcY.map(v=>`<td class="n">${nf(v,0)}</td>`).join('')+`<td class="n">${nf(S.wc,0)}</td></tr>`;
+  c+=`<tr><td style="padding-left:22px">− Hoàn trả hạn mức tín dụng</td>`+crY.map(v=>`<td class="n">${nf(v,0)}</td>`).join('')+`<td class="n">${nf(-S.credit,0)}</td></tr>`;
+  const fcf=rows.map((x,i)=>R.oneCF[i+1]);
+  const fy=yrs(fcf),ft=fy.reduce((a,b)=>a+b,0);
+  c+=`<tr><td><strong>Tiền thuần từ vận hành + hỗ trợ</strong></td>`+fy.map(v=>`<td class="n"><strong class="${sgn(v)}">${nf(v,0)}</strong></td>`).join('')+`<td class="n"><strong>${nf(ft,0)}</strong></td></tr>`;
+  let cc=R.oneCF[0];const cumY=fy.map(v=>{cc+=v;return cc;});
+  c+=`<tr><td>Tích luỹ (gồm vốn tự có ${nf(-R.oneCF[0],0)} tr)</td>`+cumY.map(v=>`<td class="n ${sgn(v)}">${nf(v,0)}</td>`).join('')+`<td class="n"></td></tr>`;
+  document.getElementById('cfTbl').innerHTML=c+'</tbody>';
+
+  const pctFin=suppTot/(R.st.capex0+S.wc)*100;
+  document.getElementById('supNote').innerHTML=
+    `<strong>Dat Bike bỏ vào ${ty(suppTot)} cho mỗi cửa hàng</strong> — hỗ trợ xây dựng ${ty(S.constr*S.realiz/100)}, marketing ${ty(S.mkt*S.realiz/100)}, hỗ trợ lãi suất 5 năm ${ty(R.subTot)}. Bằng <strong>${nf(pctFin,0)}%</strong> tổng vốn đầu tư ban đầu ${ty(R.st.capex0+S.wc)}. Nhưng đây là <em>cấn trừ vào đơn hàng</em>, không phải tiền mặt về tài khoản — nó giảm chi tiền mua xe kỳ sau, nên chỉ có giá trị nếu vẫn tiếp tục nhập hàng.`;
+  document.getElementById('fundNote').innerHTML=
+    `<strong>Đỉnh nhu cầu vốn một cửa hàng: ${ty(R.onePeak)}</strong>, trong khi vốn tự có ban đầu chỉ ${ty(equity)}. Chênh lệch ${ty(Math.max(0,R.onePeak-equity))} là phần phải bù thêm trong quá trình vận hành, chủ yếu do lỗ giai đoạn ramp và do xưởng chưa có tệp xe. Nhân với ${S.stores} cửa hàng mở lệch nhau ${S.openLag} tháng, đỉnh vốn toàn chuỗi là ${ty(R.mB.peak)}.`;
+
+  let m='<thead><tr><th>Tháng</th><th class="n">Xe</th><th class="n">Tệp xe</th><th class="n">EBITDA KD</th><th class="n">EBITDA XDV</th><th class="n">Lãi vay</th><th class="n">HT lãi suất</th><th class="n">HT XD/MKT</th><th class="n">Tiền thuần</th><th class="n">Tích luỹ</th></tr></thead><tbody>';
+  let cm=R.oneCF[0];
+  m+=`<tr><td>T0 — bỏ vốn</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n neg">${nf(R.oneCF[0],0)}</td><td class="n neg">${nf(cm,0)}</td></tr>`;
+  for(let i=0;i<18;i++){const x=rows[i];cm+=R.oneCF[i+1];
+    m+=`<tr><td>T${x.m}</td><td class="n">${nf(x.vol,0)}</td><td class="n">${nf(x.parc,0)}</td><td class="n ${sgn(x.ebitdaKD)}">${nf(x.ebitdaKD,0)}</td><td class="n ${sgn(x.ebitdaDV)}">${nf(x.ebitdaDV,0)}</td><td class="n">(${nf(x.int,0)})</td><td class="n">${nf(x.sub,0)}</td><td class="n">${nf(x.supp,0)}</td><td class="n ${sgn(R.oneCF[i+1])}">${nf(R.oneCF[i+1],0)}</td><td class="n ${sgn(cm)}">${nf(cm,0)}</td></tr>`;}
+  document.getElementById('m18Tbl').innerHTML=m+'</tbody>';
+}
+
+/* ---- p3 chuỗi ---- */
+function renderChain(){
+  barChart(document.getElementById('chartMonthly'),R.B.slice(1),R.H);
+  const rows=R.st.rows;
+  const eq=R.st.capex0+S.wc-S.credit;
+  waterfall(document.getElementById('chartFund'),
+    [['Vốn tự có VFX',eq],['Tín dụng DB',S.credit],['HT xây dựng',S.constr*S.realiz/100],
+     ['HT marketing',S.mkt*S.realiz/100],['HT lãi suất 5N',R.subTot]],
+    eq+S.credit+R.suppOne+R.subTot,'Tổng nguồn');
+  const agg=k=>{const o=new Array(R.H+1).fill(0);R.off.forEach(off=>{rows.forEach(r=>{o[r.m+off]+=r[k];});});return o;};
+  const Y=5+(R.H>60?1:0);
+  const ysum=a=>{const o=[];for(let y=0;y<Y;y++){let s=0;for(let m=y*12+1;m<=Math.min((y+1)*12,R.H);m++)s+=a[m]||0;o.push(s);}return o;};
+  const line=(l,a,bold)=>{const v=ysum(a),t=v.reduce((x,y)=>x+y,0);
+    return `<tr><td${bold?' style="font-weight:600"':''}>${l}</td>`+v.map(x=>`<td class="n"${bold?' style="font-weight:600"':''}>${nf(x,0)}</td>`).join('')+`<td class="n"${bold?' style="font-weight:600"':''}>${nf(t,0)}</td></tr>`;};
+  let head='<thead><tr><th>Khoản mục</th>';
+  for(let y=1;y<=Y;y++)head+=`<th class="n">Năm ${y}</th>`;
+  head+='<th class="n">Cộng</th></tr></thead>';
+  let b='';
+  b+=line('Sản lượng, xe',agg('vol'));
+  b+=line('Doanh thu',agg('rev'));
+  b+=line('EBITDA tầng KD',agg('ebitdaKD'));
+  b+=line('EBITDA tầng XDV',agg('ebitdaDV'));
+  b+=line('EBITDA gia tăng',agg('ebitdaINC'),1);
+  b+=line('Thuế TNDN',agg('taxB').map(x=>-x));
+  b+=line('CAPEX duy trì',agg('maint').map(x=>-x));
+  b+=line('Lãi vay',agg('int').map(x=>-x));
+  b+=line('Hỗ trợ lãi suất',agg('sub'));
+  b+=line('Hỗ trợ XD + MKT',agg('supp'));
+  const fy=[];for(let y=0;y<Y;y++){let s=0;for(let m=y*12+1;m<=Math.min((y+1)*12,R.H);m++)s+=R.B[m]||0;fy.push(s);}
+  b+=`<tr><td><strong>Dòng tiền tự do</strong></td>`+fy.map(v=>`<td class="n"><strong class="${sgn(v)}">${nf(v,0)}</strong></td>`).join('')+`<td class="n"><strong>${nf(fy.reduce((a,c)=>a+c,0),0)}</strong></td></tr>`;
+  let cc=R.B[0];const cy=fy.map(v=>{cc+=v;return cc;});
+  b+=`<tr><td>Tích luỹ (gồm vốn bỏ ra ${nf(R.mB.init,0)} tr)</td>`+cy.map(v=>`<td class="n ${sgn(v)}">${nf(v,0)}</td>`).join('')+`<td class="n"></td></tr>`;
+  document.getElementById('annualTbl').innerHTML=head+'<tbody>'+b+'</tbody>';
+}
+
+/* ---- p4 độ nhạy ---- */
+const SENS=[
+ {k:'vol',l:'Sản lượng ổn định',d:20,rel:true,u:'±20%'},
+ {k:'asp',l:'Giá bán lẻ',d:8,rel:true,u:'±8%'},
+ {k:'bonus',l:'Thưởng chỉ tiêu',d:0.5,u:'±0,5 điểm %'},
+ {k:'pkRev',l:'Doanh thu phụ kiện/xe',d:1,u:'±1 tr'},
+ {k:'opexKD',l:'Định phí showroom',d:15,rel:true,u:'±15%'},
+ {k:'opexDV',l:'Định phí xưởng',d:20,rel:true,u:'±20%'},
+ {k:'visits',l:'Tần suất vào xưởng',d:0.6,u:'±0,6 lượt/năm'},
+ {k:'partsRO',l:'Phụ tùng / lượt',d:0.25,u:'±0,25 tr'},
+ {k:'retain',l:'Giữ khách vào xưởng',d:20,u:'±20 điểm %'},
+ {k:'capexKD',l:'CAPEX showroom',d:20,rel:true,u:'±20%'},
+ {k:'capexDV',l:'CAPEX xưởng',d:25,rel:true,u:'±25%'},
+ {k:'wc',l:'Vốn lưu động',d:20,rel:true,u:'±20%'},
+ {k:'ge',l:'Quản lý chung',d:30,rel:true,u:'±30%'},
+ {k:'fa',l:'Độ chính xác dự báo',d:10,u:'±10 điểm %'}];
+function clampF(k,v){const f=FIELDS.flatMap(g=>g.items).find(x=>x.k===k);
+  return f&&f.min!=null?Math.max(f.min,Math.min(f.max,v)):v;}
+function npvWith(k,v){const s=Object.assign({},S);s[k]=clampF(k,v);return calc(s,true).mB.npv;}
+function renderTornado(){
+  const base=R.mB.npv;
+  const rows=SENS.map(x=>{
+    const dn=x.rel?S[x.k]*(1-x.d/100):S[x.k]-x.d, up=x.rel?S[x.k]*(1+x.d/100):S[x.k]+x.d;
+    const lo=npvWith(x.k,dn)-base, hi=npvWith(x.k,up)-base;
+    return {l:x.l,u:x.u,lo,hi,span:Math.abs(hi-lo)};}).sort((a,b)=>b.span-a.span);
+  const M=Math.max(...rows.map(r=>Math.max(Math.abs(r.lo),Math.abs(r.hi))))||1;
+  const W=560,h=22;
+  document.getElementById('tornado').innerHTML=rows.map(r=>{
+    const cx=W/2,x1=cx+Math.min(r.lo,r.hi)/M*(W/2-4),x2=cx+Math.max(r.lo,r.hi)/M*(W/2-4);
+    return `<div class="tor"><div class="tl">${r.l}<br><span class="s-meta">${r.u}</span></div>
+    <div><svg viewBox="0 0 ${W} ${h}" style="width:100%;height:${h}px">
+      <line x1="${cx}" y1="0" x2="${cx}" y2="${h}" stroke="#DFDBD0"/>
+      <rect x="${Math.min(x1,cx).toFixed(1)}" y="4" width="${Math.abs(cx-x1).toFixed(1)}" height="${h-8}" fill="#A6603A" opacity=".85"/>
+      <rect x="${cx}" y="4" width="${Math.abs(x2-cx).toFixed(1)}" height="${h-8}" fill="#00704A" opacity=".85"/>
+      <text x="${x1<cx?(x1-6):(cx-6)}" y="${h/2+3.5}" text-anchor="end" font-family="DM Mono,monospace" font-size="10" fill="#637069">${nf(Math.min(r.lo,r.hi),0)}</text>
+      <text x="${x2>cx?(x2+6):(cx+6)}" y="${h/2+3.5}" font-family="DM Mono,monospace" font-size="10" fill="#637069">+${nf(Math.max(r.lo,r.hi),0)}</text>
+    </svg></div></div>`;}).join('')+
+    `<div class="s-meta" style="margin-top:10px">NPV cơ sở ${nf(base,0)} tr. Thanh nâu giảm, xanh tăng, đơn vị triệu đồng.</div>`;
+}
+const MXD={asp:[-6,-3,0,3,6],opexKD:[-30,-15,0,15,30],opexDV:[-20,-10,0,10,20],
+  bonus:[-1,-0.5,0,0.5,1],partsRO:[-0.3,-0.15,0,0.15,0.3],visits:[-0.8,-0.4,0,0.4,0.8],capexKD:[-300,-150,0,150,300]};
+function renderMatrix(){
+  const k=document.getElementById('mxVar').value;
+  const fld=FIELDS.flatMap(g=>g.items).find(f=>f.k===k);
+  const cols=MXD[k].map(d=>clampF(k,S[k]+d));
+  const vols=[];for(let v=50;v<=130;v+=10)vols.push(v);
+  let h=`<thead><tr><th>Sản lượng \\ ${fld.l}</th>`+cols.map(c=>`<th class="n">${nf(c,fld.step<1?1:0)} ${fld.u}</th>`).join('')+`</tr></thead><tbody>`;
+  vols.forEach(v=>{h+=`<tr><td>${v} xe/T/CH</td>`;
+    cols.forEach(c=>{const s=Object.assign({},S,{vol:v});s[k]=c;const n=calc(s,true).mB.npv;
+      const bg=n>=0?`rgba(0,112,74,${Math.min(.28,Math.abs(n)/12000+.05)})`:`rgba(166,96,58,${Math.min(.28,Math.abs(n)/12000+.05)})`;
+      h+=`<td class="n" style="background:${bg}">${nf(n,0)}</td>`;});
+    h+='</tr>';});
+  document.getElementById('mxTbl').innerHTML=h+'</tbody>';
+}
+/* ---- p5 ngưỡng ---- */
+function solve(k,lo,hi){const f=v=>npvWith(k,v);let a=lo,b=hi,fa=f(a),fb=f(b);
+  if(fa*fb>0)return null;
+  for(let i=0;i<70;i++){const m=(a+b)/2,fm=f(m);if(fa*fm<=0){b=m;fb=fm;}else{a=m;fa=fm;}}
+  return (a+b)/2;}
+function renderThr(){
+  const T=[
+   {k:'vol',l:'Sản lượng tối thiểu / CH',lo:5,hi:200,u:'xe/T/CH',d:0,dir:'min'},
+   {k:'bonus',l:'Thưởng chỉ tiêu tối thiểu',lo:-3,hi:5,u:'% giá mua',d:2,dir:'min'},
+   {k:'pkRev',l:'Doanh thu phụ kiện tối thiểu',lo:-4,hi:10,u:'tr/xe',d:2,dir:'min'},
+   {k:'visits',l:'Tần suất vào xưởng tối thiểu',lo:-4,hi:8,u:'lượt/xe/năm',d:2,dir:'min'},
+   {k:'asp',l:'Giá bán lẻ tối thiểu',lo:20,hi:120,u:'tr/xe',d:1,dir:'min'},
+   {k:'capexKD',l:'CAPEX showroom tối đa',lo:100,hi:9000,u:'tr',d:0,dir:'max'},
+   {k:'capexDV',l:'CAPEX xưởng tối đa',lo:0,hi:9000,u:'tr',d:0,dir:'max'},
+   {k:'opexKD',l:'Định phí showroom tối đa',lo:10,hi:900,u:'tr/tháng',d:0,dir:'max'},
+   {k:'opexDV',l:'Định phí xưởng tối đa',lo:0,hi:900,u:'tr/tháng',d:0,dir:'max'},
+   {k:'wc',l:'Vốn lưu động tối đa',lo:0,hi:9000,u:'tr',d:0,dir:'max'}];
+  const rows=T.map(t=>{const v=solve(t.k,t.lo,t.hi),cur=S[t.k];let gap,cls='';
+    if(v==null){const worst=(t.dir==='min')?npvWith(t.k,t.lo):npvWith(t.k,t.hi);
+      gap=worst>0?'Không có ngưỡng — biến này không đủ sức làm NPV âm':'Kéo hết biên vẫn không cứu được NPV';
+      cls=worst>0?'pos':'neg';}
+    else if(t.dir==='min'){const ok=cur>=v;gap=(ok?'Dư ':'Thiếu ')+nf(Math.abs(cur-v),t.d)+' '+t.u;cls=ok?'pos':'neg';}
+    else {const ok=cur<=v;gap=(ok?'Còn dư ':'Vượt ')+nf(Math.abs(v-cur),t.d)+' '+t.u;cls=ok?'pos':'neg';}
+    return {t,v,cur,gap,cls};});
+  document.getElementById('thrTbl').innerHTML=
+   `<thead><tr><th>Ngưỡng</th><th class="n">Hiện tại</th><th class="n">Mức NPV = 0</th><th class="n">Khoảng đệm</th></tr></thead><tbody>`+
+   rows.map(r=>`<tr><td>${r.t.l}</td><td class="n">${nf(r.cur,r.t.d)} ${r.t.u}</td>
+     <td class="n">${r.v==null?'—':nf(r.v,r.t.d)+' '+r.t.u}</td><td class="n ${r.cls}">${r.gap}</td></tr>`).join('')+`</tbody>`;
+  const volT=rows.find(r=>r.t.k==='vol').v, capT=rows.find(r=>r.t.k==='capexKD').v;
+  document.getElementById('thrRow').innerHTML=[
+    ['Sản lượng hoà vốn NPV',volT==null?'—':nf(volT,0)+' xe','Đang đặt kế hoạch '+S.vol+' xe/T/CH'],
+    ['CAPEX showroom chịu được',capT==null?'—':ty(capT),'Đang dự toán '+ty(S.capexKD)],
+    ['Đỉnh vốn toàn chuỗi',ty(R.mB.peak),'Vốn tự có ban đầu '+ty(R.mB.init)]
+  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+
+  const asks=[];
+  const noXDV=Object.assign({},S,{opexDV:0,capexDV:0,visits:0,bonus:0});
+  const dNoXDV=calc(noXDV,true).mB.npv-R.mB.npv;
+  asks.push(['Tách điều kiện 3S khỏi thưởng chỉ tiêu, hoặc cho lộ trình 12 tháng mới bắt buộc đủ xưởng',
+    'Bỏ xưởng thì mất luôn thưởng — thử nghiệm cho thấy NPV đổi '+ty(dNoXDV)+'. Xưởng đang là điều kiện, không phải lựa chọn.']);
+  asks.push(['Công bố thời gian bảo hành định mức bằng bảng cụ thể, không để "quyết định cuối cùng thuộc DB"',
+    'Doanh thu công bảo hành đang '+ty(R.ss.nr003b)+'/tháng/CH ở trạng thái ổn định, toàn bộ phụ thuộc định mức này.']);
+  asks.push(['Có chiết khấu cho phụ tùng pin, hoặc cơ chế chia sẻ rủi ro bảo hành pin',
+    'Pin hiện không áp dụng chiết khấu — cấu phần đắt nhất của xe điện không có biên.']);
+  if(S.vol<POLICY.gateUnits) asks.push(['Hạ cổng hỗ trợ lãi suất xuống '+S.vol+' xe/T/CH hoặc tính bình quân quý',
+    'Ở kế hoạch '+S.vol+' xe, cổng 80 xe đang đóng, mất toàn bộ hỗ trợ lãi suất.']);
+  if(S.o2o>=20) asks.push(['Nâng chiết khấu O2O từ 5% lên 6%, hoặc giới hạn tỷ trọng O2O ≤15%',
+    'Mỗi 10 điểm % O2O lấy đi '+ty(Math.abs(npvWith('o2o',S.o2o+10)-R.mB.npv))+' NPV.']);
+  asks.push(['Cho trả chậm 30 ngày với đơn xe, hoặc ký gửi 30% tồn kho',
+    'Vốn lưu động '+ty(S.wc)+'/CH; giảm 20% làm NPV tăng '+ty(Math.abs(npvWith('wc',S.wc*0.8)-R.mB.npv))+'.']);
+  asks.push(['Trả hỗ trợ XD/MKT ngay tháng khai trương thay vì tháng '+S.supMonth,
+    'Kéo về T1 làm NPV tăng '+ty(Math.abs(npvWith('supMonth',1)-R.mB.npv))+'.']);
+  document.getElementById('negoList').innerHTML='<ol style="margin:6px 0 0;padding-left:20px;font-size:13.5px">'+
+    asks.map(a=>`<li><strong>${a[0]}</strong><br><span class="s-meta">${a[1]}</span></li>`).join('')+'</ol>';
+}
+function renderLive(){
+  const b=R.mB,v=verdict(R),r=R.ss;
+  document.getElementById('liveBox').innerHTML=`
+    <div class="s-eyebrow" style="margin-bottom:6px">Kết quả tức thì · <span class="${v.cls==='v-go'?'pos':(v.cls==='v-no'?'neg':'')}">${v.v}</span></div>
+    <div class="plive">
+      <div><div class="k">NPV chuỗi</div><div class="v ${sgn(b.npv)}">${ty(b.npv)}</div></div>
+      <div><div class="k">NPV 1 CH</div><div class="v ${sgn(R.oneNPV)}">${ty(R.oneNPV)}</div></div>
+      <div><div class="k">EBITDA KD</div><div class="v ${sgn(r.ebitdaKD)}">${nf(r.ebitdaKD,0)}</div></div>
+      <div><div class="k">EBITDA XDV</div><div class="v ${sgn(r.ebitdaDV)}">${nf(r.ebitdaDV,0)}</div></div>
+    </div>
+    <div class="s-meta" style="margin-top:7px">EBITDA tr/tháng ở trạng thái ổn định · hoàn vốn 1 CH ${R.onePB==null?'>60T':R.onePB+'T'} · đỉnh vốn ${ty(R.onePeak)}</div>`;
+}
+const RENDER={p1:()=>renderOne(),p3:()=>renderChain(),p4:()=>{renderTornado();renderMatrix();},p5:()=>renderThr()};
+let DIRTY={p1:true,p3:true,p4:true,p5:true};
+function renderActive(){const id=activePane();if(RENDER[id]&&DIRTY[id]){RENDER[id]();DIRTY[id]=false;}}
+function onChange(sync){
+  R=calc(S);
+  if(sync)syncInputs();
+  renderTop();renderCum();renderLive();
+  DIRTY={p1:true,p3:true,p4:true,p5:true};
+  renderActive();
+  try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}
+}
+/* ═══════ 7. KHỞI ĐỘNG ═══════ */
+buildTabs();buildInputs();
+try{const sv=localStorage.getItem(LS_KEY);if(sv){const o=JSON.parse(sv);
+  Object.keys(PRESETS.base).forEach(k=>{if(typeof o[k]==='number')S[k]=o[k];});}}catch(e){}
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{
+  curPreset=b.dataset.preset;S=Object.assign({},PRESETS[curPreset]);
+  document.querySelectorAll('[data-preset]').forEach(x=>x.classList.toggle('s-btn-pri',x===b));
+  onChange(true);});
+document.getElementById('btnReset').onclick=()=>{S=Object.assign({},PRESETS.base);curPreset='base';
+  document.querySelectorAll('[data-preset]').forEach(x=>x.classList.toggle('s-btn-pri',x.dataset.preset==='base'));
+  onChange(true);};
+document.getElementById('mxVar').onchange=renderMatrix;
+document.getElementById('btnPanel').onclick=()=>{const el=document.getElementById('panel');
+  el.classList.toggle('closed');
+  document.getElementById('btnPanel').textContent=el.classList.contains('closed')?'Mở giả định':'Đóng';};
+document.getElementById('btnJson').onclick=()=>{
+  const blob=new Blob([JSON.stringify({version:APP_VERSION,stamp:BUILD_STAMP,scenario:curPreset,inputs:S,
+    results:{npv_chain:R.mB.npv,npv_one_store:R.oneNPV,irr:R.mB.irr,payback_one:R.onePB,
+      ebitda_kd:R.ss.ebitdaKD,ebitda_xdv:R.ss.ebitdaDV,peak_funding:R.mB.peak}},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='VFX_DatBike_v3_'+curPreset+'.json';a.click();};
+document.getElementById('btnCsv').onclick=()=>{
+  let csv='Thang;FCF_chuoi;Tich_luy;FCF_1CH;EBITDA_KD;EBITDA_XDV;Te_xe\n';let c=0;
+  for(let i=0;i<=R.H;i++){c+=R.B[i];const r=R.st.rows[i-1];
+    csv+=i+';'+R.B[i].toFixed(1)+';'+c.toFixed(1)+';'+(R.oneCF[i]||0).toFixed(1)+';'+
+      (r?r.ebitdaKD.toFixed(1):'')+';'+(r?r.ebitdaDV.toFixed(1):'')+';'+(r?r.parc.toFixed(0):'')+'\n';}
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='VFX_DatBike_v3_cashflow.csv';a.click();};
+document.querySelectorAll('[data-ver]').forEach(e=>e.textContent=APP_VERSION);
+document.querySelectorAll('[data-stamp]').forEach(e=>e.textContent=BUILD_STAMP);
+onChange(true);
+
+</script>
+</body>
+</html>
